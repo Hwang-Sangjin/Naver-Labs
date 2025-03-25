@@ -6,7 +6,7 @@ import FiberContainer from "./components/FiberContainer";
 function App() {
   return (
     <RecoilRoot>
-      <FiberContainer />
+      <></>
     </RecoilRoot>
   );
 }
