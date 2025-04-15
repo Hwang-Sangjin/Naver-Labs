@@ -9,8 +9,8 @@ export default function NaverBuilding(props) {
         castShadow
         receiveShadow
         geometry={nodes.Cube015.geometry}
-        material={nodes.Cube015.material}
-        position={[10.358, 0.094, 13.891]}
+        material={materials.Material}
+        position={[14.358, 0.094, 13.891]}
         scale={0.25}
       />
     </group>
