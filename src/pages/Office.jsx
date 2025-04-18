@@ -1,5 +1,11 @@
+import OfficeFiberContainer from "../components/Office/OfficeFiberContainer";
+
 const Office = () => {
-  return <>Office</>;
+  return (
+    <>
+      <OfficeFiberContainer />
+    </>
+  );
 };
 
 export default Office;
