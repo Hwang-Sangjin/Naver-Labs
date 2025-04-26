@@ -7,7 +7,7 @@ const Scene = () => {
   return (
     <>
       <Canvas>
-        <ambientLight intensity={0.5} color="#ffffff" />
+        <ambientLight intensity={1} color="#ffffff" />
         <OrthographicCamera
           makeDefault
           zoom={1}
@@ -17,7 +17,7 @@ const Scene = () => {
           right={-50}
           near={1}
           far={200}
-          position={[0, 0, 100]}
+          position={[0, 0, 50]}
         />
         <NaverBuilding />
         <OrbitControls />
