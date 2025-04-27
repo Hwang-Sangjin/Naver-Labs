@@ -8,16 +8,16 @@ const Scene = () => {
     <>
       <Canvas>
         <ambientLight intensity={1} color="#ffffff" />
+        <directionalLight
+          position={[3.3, 1.0, 4.4]}
+          castShadow
+          intensity={Math.PI * 2}
+        />
         <OrthographicCamera
           makeDefault
-          zoom={1}
-          top={50}
-          bottom={-50}
-          left={50}
-          right={-50}
-          near={1}
+          zoom={10}
           far={200}
-          position={[0, 0, 50]}
+          position={[0, 0, 100]}
         />
         <NaverBuilding />
         <OrbitControls />
