@@ -17,7 +17,7 @@ const Scene = () => {
           makeDefault
           zoom={10}
           far={200}
-          position={[0, 0, 100]}
+          position={[20, 30, 50]}
         />
         <NaverBuilding />
         <OrbitControls />
