@@ -19,7 +19,7 @@ const Scene = () => {
           far={200}
           position={[20, 30, 50]}
         />
-        <NaverBuilding />
+        <NaverBuilding position={[0, 0, 0]} />
         <OrbitControls />
       </Canvas>
       <Loader />
