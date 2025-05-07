@@ -1,11 +1,7 @@
 import Scene from "./Scene";
 
 const FiberContainer = () => {
-  return (
-    <>
-      <Scene />
-    </>
-  );
+  return <Scene />;
 };
 
 export default FiberContainer;
