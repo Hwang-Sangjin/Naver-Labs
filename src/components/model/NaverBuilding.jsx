@@ -1,5 +1,5 @@
-import React, { useRef } from "react";
-import { useGLTF, useScroll } from "@react-three/drei";
+import React, { useLayoutEffect, useRef } from "react";
+import { Center, useGLTF, useScroll } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 
 export default function NaverBuilding(props) {
@@ -22,16 +22,18 @@ export default function NaverBuilding(props) {
   });
 
   return (
-    <group castShadow receiveShadow {...props} dispose={null}>
-      <mesh
-        castShadow
-        receiveShadow
-        geometry={nodes.Cube015.geometry}
-        material={materials.Material}
-        position={[14.358, 0.094, 13.891]}
-        scale={0.25}
-      />
-    </group>
+    <Center>
+      <group castShadow receiveShadow {...props} dispose={null}>
+        <mesh
+          castShadow
+          receiveShadow
+          geometry={nodes.Cube015.geometry}
+          material={materials.Material}
+          position={[14.358, 0.094, 13.891]}
+          scale={0.25}
+        />
+      </group>
+    </Center>
   );
 }
 
