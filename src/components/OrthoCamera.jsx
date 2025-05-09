@@ -10,14 +10,14 @@ const OrthoCamera = () => {
   return (
     <OrthographicCamera
       makeDefault
-      zoom={5}
+      zoom={3}
       near={1}
       far={400}
-      position={[30, 0, 100]}
-      left={-500}
-      right={500}
-      top={300}
-      bottom={-300}
+      position={[10, 5, 10]}
+      left={-50}
+      right={50}
+      top={30}
+      bottom={-30}
     />
   );
 };

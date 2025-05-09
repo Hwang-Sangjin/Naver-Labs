@@ -19,10 +19,8 @@ import Suzi from "./model/Suzi";
 
 const Scene = () => {
   return (
-    <>
-      <Canvas shadows>
-        <OrthoCamera />
-
+    <Canvas shadows camera={{ position: [4, 2.5, 8], fov: 35 }}>
+      <group position={[0, -0.5, 0]}>
         <ScrollControls
           style={{
             width: "100%",
@@ -37,45 +35,34 @@ const Scene = () => {
           pages={5}
         >
           <Center top>
-            <NaverBuilding position={[0, -20, 0]} />
+            <NaverBuilding scale={0.2} />
           </Center>
-
-          {/* <Center top>
-            <Suzi rotation={[-0.63, 0, 0]} scale={20} />
-          </Center> */}
-          <mesh
-            receiveShadow
-            castShadow
-            rotation={[-Math.PI / 2, 0, 0]}
-            position={[0, -20, 0]}
-          >
-            <boxGeometry args={[1000, 1000, 1, 1]} />
-            <meshStandardMaterial side={THREE.DoubleSide} color="white" />
-          </mesh>
-          <AccumulativeShadows
-            temporal
-            frames={60}
-            color="black"
-            colorBlend={2}
-            toneMapped={true}
-            alphaTest={0.75}
-            opacity={2}
-            scale={50}
-          >
-            <RandomizedLight
-              intensity={Math.PI}
-              amount={10}
-              radius={200}
-              ambient={0.5}
-              position={[60, 60, 200]}
-              bias={0.001}
-            />
-          </AccumulativeShadows>
         </ScrollControls>
-        <Environment preset="city" />
-      </Canvas>
-      <Loader />
-    </>
+
+        <AccumulativeShadows
+          temporal
+          frames={100}
+          color="orange"
+          colorBlend={2}
+          toneMapped={true}
+          alphaTest={0.75}
+          opacity={2}
+          scale={50}
+        >
+          <RandomizedLight
+            intensity={Math.PI}
+            amount={8}
+            radius={4}
+            ambient={0.5}
+            position={[5, 5, -10]}
+            bias={0.001}
+          />
+        </AccumulativeShadows>
+      </group>
+
+      <Environment preset="city" />
+      <OrthoCamera />
+    </Canvas>
   );
 };
 

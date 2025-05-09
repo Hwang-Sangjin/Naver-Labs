@@ -11,11 +11,11 @@ export default function NaverBuilding(props) {
     const offset = 1 - scroll.offset;
 
     state.camera.position.set(
-      Math.sin(offset) * 100,
-      Math.atan(offset * Math.PI * 2) * 50,
-      Math.cos((offset * Math.PI) / 3) * 200
+      Math.sin(offset) * 10,
+      Math.atan(offset * Math.PI * 2) * 3,
+      Math.cos((offset * Math.PI) / 3) * 20
     );
-    state.camera.zoom = 5 + (1 - offset) * 10; // Zoom ranges from 5 to 15 based on scroll
+    state.camera.zoom = 1 + (1 - offset) * 3; // Zoom ranges from 5 to 15 based on scroll
     state.camera.updateProjectionMatrix();
 
     state.camera.lookAt(0, 0, 0);
@@ -27,10 +27,10 @@ export default function NaverBuilding(props) {
         <mesh
           castShadow
           receiveShadow
-          geometry={nodes.Cube015.geometry}
-          material={materials.Material}
-          position={[14.358, 0.094, 13.891]}
-          scale={0.25}
+          geometry={nodes.Combined.geometry}
+          material={nodes.Combined.material}
+          position={[-2, 3, -7]}
+          scale={0.763}
         />
       </group>
     </Center>
