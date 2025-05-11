@@ -5,6 +5,7 @@ import { ThemeProvider } from "@material-tailwind/react";
 import { BrowserRouter, Routes, Route } from "react-router";
 import Office from "./pages/Office.jsx";
 import { RecoilRoot } from "recoil";
+import Building from "./pages/Building.jsx";
 
 createRoot(document.getElementById("root")).render(
   <BrowserRouter>
@@ -12,6 +13,7 @@ createRoot(document.getElementById("root")).render(
       <RecoilRoot>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/Building" element={<Building />} />
           <Route path="office" element={<Office />} />
         </Routes>
       </RecoilRoot>

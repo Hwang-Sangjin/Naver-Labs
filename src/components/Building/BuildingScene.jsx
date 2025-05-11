@@ -11,13 +11,12 @@ import {
   useHelper,
 } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
-import NaverBuilding from "./model/NaverBuilding";
+import NaverBuilding from "../model/NaverBuilding";
 import * as THREE from "three";
 import { useRef } from "react";
-import OrthoCamera from "./OrthoCamera";
-import Suzi from "./model/Suzi";
+import OrthoCamera from "../OrthoCamera";
 
-const Scene = () => {
+const BuildingScene = () => {
   return (
     <Canvas shadows camera={{ position: [4, 2.5, 8], fov: 35 }}>
       <group position={[0, -0.5, 0]}>
@@ -42,7 +41,7 @@ const Scene = () => {
         <AccumulativeShadows
           temporal
           frames={100}
-          color="orange"
+          color="green"
           colorBlend={2}
           toneMapped={true}
           alphaTest={0.75}
@@ -66,4 +65,4 @@ const Scene = () => {
   );
 };
 
-export default Scene;
+export default BuildingScene;
