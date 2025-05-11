@@ -1,6 +1,6 @@
-const HomeSlide = () => {
+const HomeSlide = ({ position }) => {
   return (
-    <mesh>
+    <mesh position={position}>
       <boxGeometry args={[1, 0.1, 1]} />
       <meshBasicMaterial
         color={"#14cf64"}
