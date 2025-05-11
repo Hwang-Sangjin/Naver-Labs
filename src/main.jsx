@@ -13,7 +13,7 @@ createRoot(document.getElementById("root")).render(
       <RecoilRoot>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/Building" element={<Building />} />
+          <Route path="building" element={<Building />} />
           <Route path="office" element={<Office />} />
         </Routes>
       </RecoilRoot>
