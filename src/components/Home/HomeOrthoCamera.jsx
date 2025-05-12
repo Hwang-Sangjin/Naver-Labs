@@ -14,10 +14,10 @@ const HomeOrthoCamera = () => {
       near={1}
       far={400}
       position={[0, 0, 10]}
-      left={-50}
-      right={50}
-      top={30}
-      bottom={-30}
+      left={-40}
+      right={40}
+      top={20}
+      bottom={-20}
     />
   );
 };

@@ -1,14 +1,16 @@
 import { Loader, OrbitControls, OrthographicCamera } from "@react-three/drei";
-import { Canvas } from "@react-three/fiber";
+import { Canvas, useFrame } from "@react-three/fiber";
 import HomeSlide from "./HomeSlide";
 import HomeOrthoCamera from "./HomeOrthoCamera";
+import { useRef, useState } from "react";
+import HomeExperience from "./HomeExperience";
 
 const HomeScene = () => {
   const SlidePos = [];
-  for (let i = 0; i < 20; i++) {
+  for (let i = 0; i < 17; i++) {
     for (let j = 0; j < 15; j++) {
-      const x = -15 + i * 2;
-      const y = -10 + j * 2;
+      const x = -16 + i * 2;
+      const y = -12 + j * 1.5;
       SlidePos.push([x, y, 0]);
     }
   }
@@ -16,11 +18,7 @@ const HomeScene = () => {
   return (
     <>
       <Canvas>
-        {SlidePos.map((e, index) => {
-          const key = `Slide${index}`;
-
-          return <HomeSlide key={key} position={e} />;
-        })}
+        <HomeExperience SlidePos={SlidePos} />
         <OrbitControls />
         <HomeOrthoCamera />
       </Canvas>
