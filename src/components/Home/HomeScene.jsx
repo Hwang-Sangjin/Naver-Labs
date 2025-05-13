@@ -1,4 +1,9 @@
-import { Loader, OrbitControls, OrthographicCamera } from "@react-three/drei";
+import {
+  Loader,
+  OrbitControls,
+  OrthographicCamera,
+  ScrollControls,
+} from "@react-three/drei";
 import { Canvas, useFrame } from "@react-three/fiber";
 import HomeSlide from "./HomeSlide";
 import HomeOrthoCamera from "./HomeOrthoCamera";
@@ -18,8 +23,10 @@ const HomeScene = () => {
   return (
     <>
       <Canvas>
-        <HomeExperience SlidePos={SlidePos} />
-        <OrbitControls />
+        <ScrollControls pages={2} damping={0.1}>
+          <HomeExperience SlidePos={SlidePos} />
+        </ScrollControls>
+
         <HomeOrthoCamera />
       </Canvas>
       <Loader />

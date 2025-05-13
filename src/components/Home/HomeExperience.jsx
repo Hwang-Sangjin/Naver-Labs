@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import HomeSlide from "./HomeSlide";
 import { useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
+import { useScroll } from "@react-three/drei";
 
 const HomeExperience = ({ SlidePos }) => {
   const planeRef = useRef();
@@ -11,6 +12,7 @@ const HomeExperience = ({ SlidePos }) => {
   const [cursorPos, setCursorPos] = useState([9999, 9999, 9999]);
   const raycaster = useRef(new THREE.Raycaster());
   const { camera } = useThree();
+  const scrollData = useScroll();
 
   const sizes = {
     width: window.innerWidth,
@@ -37,6 +39,7 @@ const HomeExperience = ({ SlidePos }) => {
       const point = intersection[0].point;
       setCursorPos([point.x, point.y, point.z]);
     }
+    console.log(scrollData.offset + 1);
   });
 
   return (

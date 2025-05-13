@@ -10,8 +10,8 @@ const HomeOrthoCamera = () => {
   return (
     <OrthographicCamera
       makeDefault
-      zoom={3}
-      near={1}
+      zoom={2.5}
+      near={-100}
       far={400}
       position={[0, 0, 10]}
       left={-40}
