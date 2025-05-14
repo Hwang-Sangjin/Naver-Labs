@@ -3,6 +3,7 @@ import HomeSlide from "./HomeSlide";
 import { useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import { useScroll } from "@react-three/drei";
+import useTestStore from "../../store/useTestStore";
 
 const HomeExperience = ({ SlidePos }) => {
   const planeRef = useRef();
@@ -12,7 +13,10 @@ const HomeExperience = ({ SlidePos }) => {
   const [cursorPos, setCursorPos] = useState([9999, 9999, 9999]);
   const raycaster = useRef(new THREE.Raycaster());
   const { camera } = useThree();
-  const scrollData = useScroll();
+  const data = useScroll();
+  const [currentPage, setCurrentPage] = useState(0);
+
+  const { testData, setTestData } = useTestStore();
 
   const sizes = {
     width: window.innerWidth,
@@ -38,8 +42,15 @@ const HomeExperience = ({ SlidePos }) => {
     if (intersection.length > 0) {
       const point = intersection[0].point;
       setCursorPos([point.x, point.y, point.z]);
+
+      setTestData(point);
     }
-    console.log(scrollData.offset + 1);
+
+    const tempPage = Math.floor(data.offset * data.pages);
+
+    if (tempPage !== currentPage) {
+      setCurrentPage(tempPage);
+    }
   });
 
   return (
@@ -47,7 +58,14 @@ const HomeExperience = ({ SlidePos }) => {
       {SlidePos.map((e, index) => {
         const key = `Slide${index}`;
 
-        return <HomeSlide key={key} position={e} cursorPos={cursorPos} />;
+        return (
+          <HomeSlide
+            key={key}
+            position={e}
+            cursorPos={cursorPos}
+            currentPage={currentPage}
+          />
+        );
       })}
       <mesh ref={planeRef}>
         <planeGeometry args={[40, 30, 100, 100]} />

@@ -7,10 +7,13 @@ import {
 import { Canvas, useFrame } from "@react-three/fiber";
 import HomeSlide from "./HomeSlide";
 import HomeOrthoCamera from "./HomeOrthoCamera";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import HomeExperience from "./HomeExperience";
+import useTestStore from "../../store/useTestStore";
 
 const HomeScene = () => {
+  const { testData, setTestData } = useTestStore();
+
   const SlidePos = [];
   for (let i = 0; i < 17; i++) {
     for (let j = 0; j < 15; j++) {
@@ -23,10 +26,21 @@ const HomeScene = () => {
   return (
     <>
       <Canvas>
-        <ScrollControls pages={2} damping={0.1}>
+        <ScrollControls
+          style={{
+            width: "100%",
+            height: "100%",
+            overflow: "auto",
+            position: "absolute",
+            top: 0,
+            left: 0,
+            scrollbarWidth: "none" /* Firefox */,
+            msOverflowStyle: "none" /* IE and Edge */,
+          }}
+          pages={5}
+        >
           <HomeExperience SlidePos={SlidePos} />
         </ScrollControls>
-
         <HomeOrthoCamera />
       </Canvas>
       <Loader />

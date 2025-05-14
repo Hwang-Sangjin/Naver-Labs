@@ -2,18 +2,40 @@ import { useFrame } from "@react-three/fiber";
 import { useEffect, useState, useRef } from "react";
 import * as THREE from "three";
 
-const HomeSlide = ({ position, cursorPos }) => {
+const HomeSlide = ({ position, cursorPos, currentPage }) => {
   const [distanceOpacity, setDistanceOpacity] = useState(0.25);
   const [rotationZ, setRotationZ] = useState(0);
   const [rotationX, setRotationX] = useState(0);
   const [rotationY, setRotationY] = useState(0);
+  const [slideScale, setSlideScale] = useState(1);
   const slideRef = useRef();
 
   // Store history of cursor positions for smoothing
   const cursorHistory = useRef([]);
-  const maxHistory = 5; // Number of past positions to average
+  const maxHistory = 3; // Number of past positions to average
 
   useEffect(() => {
+    console.log(currentPage);
+  }, [currentPage]);
+
+  useEffect(() => {
+    if (currentPage === 0) {
+      StageEffect0();
+    } else if (currentPage === 1) {
+      StateEffect1();
+    }
+  }, [cursorPos, position, rotationZ, currentPage]);
+
+  useFrame(() => {
+    if (currentPage === 0) {
+      StateFrame0();
+    } else if (currentPage === 1) {
+      StateFrame1();
+    }
+  });
+
+  const StageEffect0 = () => {
+    setSlideScale([1, 1, 1]);
     // Update cursor position history
     cursorHistory.current.push(new THREE.Vector3(...cursorPos));
     if (cursorHistory.current.length > maxHistory) {
@@ -39,7 +61,7 @@ const HomeSlide = ({ position, cursorPos }) => {
 
     // Z-axis rotation: Align card to face the cursor
     const exactRotationZ = Math.atan2(direction.y, direction.x);
-    const maxDistance = 6;
+    const maxDistance = 8;
     const precisionFactor = Math.max(0, 1 - distance / maxDistance); // 1 (close) to 0 (far)
     const rotationDamping = 0.5;
     const adjustedRotationZ =
@@ -55,12 +77,11 @@ const HomeSlide = ({ position, cursorPos }) => {
     const rotationX =
       maxRotationX * tiltFactor * decay < 0.1
         ? 0
-        : 0.8 - maxRotationX * tiltFactor * decay;
+        : 1 - maxRotationX * tiltFactor * decay;
     setRotationX(rotationX);
     setRotationY(rotationX);
-  }, [cursorPos, position, rotationZ]);
-
-  useFrame(() => {
+  };
+  const StateFrame0 = () => {
     if (slideRef.current) {
       if (slideRef.current.rotation.x > rotationX) {
         const diff = slideRef.current.rotation.x - rotationX;
@@ -83,8 +104,60 @@ const HomeSlide = ({ position, cursorPos }) => {
         const diff = -slideRef.current.rotation.z + rotationZ;
         slideRef.current.rotation.z += diff * 0.05;
       }
+
+      if (slideRef.current.scale.x > slideScale) {
+        slideRef.current.scale.x -= 0.05;
+        slideRef.current.scale.y -= 0.05;
+        slideRef.current.scale.z -= 0.05;
+      } else if (slideRef.current.scale.x < slideScale) {
+        slideRef.current.scale.x += 0.05;
+        slideRef.current.scale.y += 0.05;
+        slideRef.current.scale.z += 0.05;
+      }
     }
-  });
+  };
+  const StateEffect1 = () => {
+    setRotationX(1);
+    setRotationY(0);
+    setRotationZ(0);
+    setDistanceOpacity(1);
+    setSlideScale(2);
+  };
+  const StateFrame1 = () => {
+    if (slideRef.current) {
+      if (slideRef.current.rotation.x > rotationX) {
+        const diff = slideRef.current.rotation.x - rotationX;
+        slideRef.current.rotation.x -= diff * 0.05;
+      } else if (slideRef.current.rotation.x < rotationX) {
+        const diff = -slideRef.current.rotation.x + rotationX;
+        slideRef.current.rotation.x += diff * 0.05;
+      }
+      if (slideRef.current.rotation.y > rotationY) {
+        const diff = slideRef.current.rotation.y - rotationY;
+        slideRef.current.rotation.y -= diff * 0.05;
+      } else if (slideRef.current.rotation.y < rotationY) {
+        const diff = -slideRef.current.rotation.y + rotationY;
+        slideRef.current.rotation.y += diff * 0.05;
+      }
+      if (slideRef.current.rotation.z > rotationZ) {
+        const diff = slideRef.current.rotation.z - rotationZ;
+        slideRef.current.rotation.z -= diff * 0.05;
+      } else if (slideRef.current.rotation.z < rotationZ) {
+        const diff = -slideRef.current.rotation.z + rotationZ;
+        slideRef.current.rotation.z += diff * 0.05;
+      }
+
+      if (slideRef.current.scale.x > slideScale) {
+        slideRef.current.scale.x -= 0.05;
+        slideRef.current.scale.y -= 0.05;
+        slideRef.current.scale.z -= 0.05;
+      } else if (slideRef.current.scale.x < slideScale) {
+        slideRef.current.scale.x += 0.05;
+        slideRef.current.scale.y += 0.05;
+        slideRef.current.scale.z += 0.05;
+      }
+    }
+  };
 
   return (
     <mesh ref={slideRef} position={position}>
