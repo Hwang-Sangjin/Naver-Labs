@@ -1,5 +1,5 @@
 import { useFrame } from "@react-three/fiber";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useTransition } from "react";
 import * as THREE from "three";
 
 const HomeSlide = ({ position, cursorPos, currentPage }) => {
@@ -15,23 +15,11 @@ const HomeSlide = ({ position, cursorPos, currentPage }) => {
   const maxHistory = 3; // Number of past positions to average
 
   useEffect(() => {
-    console.log(currentPage);
-  }, [currentPage]);
+    StageEffect0();
+  }, [cursorPos, position, rotationZ]);
 
-  useEffect(() => {
-    if (currentPage === 0) {
-      StageEffect0();
-    } else if (currentPage === 1) {
-      StateEffect1();
-    }
-  }, [cursorPos, position, rotationZ, currentPage]);
-
-  useFrame(() => {
-    if (currentPage === 0) {
-      StateFrame0();
-    } else if (currentPage === 1) {
-      StateFrame1();
-    }
+  useFrame((state, delta) => {
+    StateFrame0(delta);
   });
 
   const StageEffect0 = () => {
@@ -81,28 +69,47 @@ const HomeSlide = ({ position, cursorPos, currentPage }) => {
     setRotationX(rotationX);
     setRotationY(rotationX);
   };
-  const StateFrame0 = () => {
+  const StateFrame0 = (delta) => {
+    delta *= 5;
     if (slideRef.current) {
       if (slideRef.current.rotation.x > rotationX) {
-        const diff = slideRef.current.rotation.x - rotationX;
-        slideRef.current.rotation.x -= diff * 0.05;
+        slideRef.current.rotation.x = THREE.MathUtils.lerp(
+          slideRef.current.rotation.x,
+          rotationX,
+          delta
+        );
       } else if (slideRef.current.rotation.x < rotationX) {
-        const diff = -slideRef.current.rotation.x + rotationX;
-        slideRef.current.rotation.x += diff * 0.05;
+        slideRef.current.rotation.x = THREE.MathUtils.lerp(
+          slideRef.current.rotation.x,
+          rotationX,
+          delta
+        );
       }
       if (slideRef.current.rotation.y > rotationY) {
-        const diff = slideRef.current.rotation.y - rotationY;
-        slideRef.current.rotation.y -= diff * 0.05;
+        slideRef.current.rotation.y = THREE.MathUtils.lerp(
+          slideRef.current.rotation.y,
+          rotationY,
+          delta
+        );
       } else if (slideRef.current.rotation.y < rotationY) {
-        const diff = -slideRef.current.rotation.y + rotationY;
-        slideRef.current.rotation.y += diff * 0.05;
+        slideRef.current.y = THREE.MathUtils.lerp(
+          slideRef.current.rotation.y,
+          rotationY,
+          delta
+        );
       }
       if (slideRef.current.rotation.z > rotationZ) {
-        const diff = slideRef.current.rotation.z - rotationZ;
-        slideRef.current.rotation.z -= diff * 0.05;
+        slideRef.current.rotation.z = THREE.MathUtils.lerp(
+          slideRef.current.rotation.z,
+          rotationZ,
+          delta
+        );
       } else if (slideRef.current.rotation.z < rotationZ) {
-        const diff = -slideRef.current.rotation.z + rotationZ;
-        slideRef.current.rotation.z += diff * 0.05;
+        slideRef.current.rotation.z = THREE.MathUtils.lerp(
+          slideRef.current.rotation.z,
+          rotationZ,
+          delta
+        );
       }
 
       if (slideRef.current.scale.x > slideScale) {
@@ -116,48 +123,8 @@ const HomeSlide = ({ position, cursorPos, currentPage }) => {
       }
     }
   };
-  const StateEffect1 = () => {
-    setRotationX(1);
-    setRotationY(0);
-    setRotationZ(0);
-    setDistanceOpacity(1);
-    setSlideScale(2);
-  };
-  const StateFrame1 = () => {
-    if (slideRef.current) {
-      if (slideRef.current.rotation.x > rotationX) {
-        const diff = slideRef.current.rotation.x - rotationX;
-        slideRef.current.rotation.x -= diff * 0.05;
-      } else if (slideRef.current.rotation.x < rotationX) {
-        const diff = -slideRef.current.rotation.x + rotationX;
-        slideRef.current.rotation.x += diff * 0.05;
-      }
-      if (slideRef.current.rotation.y > rotationY) {
-        const diff = slideRef.current.rotation.y - rotationY;
-        slideRef.current.rotation.y -= diff * 0.05;
-      } else if (slideRef.current.rotation.y < rotationY) {
-        const diff = -slideRef.current.rotation.y + rotationY;
-        slideRef.current.rotation.y += diff * 0.05;
-      }
-      if (slideRef.current.rotation.z > rotationZ) {
-        const diff = slideRef.current.rotation.z - rotationZ;
-        slideRef.current.rotation.z -= diff * 0.05;
-      } else if (slideRef.current.rotation.z < rotationZ) {
-        const diff = -slideRef.current.rotation.z + rotationZ;
-        slideRef.current.rotation.z += diff * 0.05;
-      }
 
-      if (slideRef.current.scale.x > slideScale) {
-        slideRef.current.scale.x -= 0.05;
-        slideRef.current.scale.y -= 0.05;
-        slideRef.current.scale.z -= 0.05;
-      } else if (slideRef.current.scale.x < slideScale) {
-        slideRef.current.scale.x += 0.05;
-        slideRef.current.scale.y += 0.05;
-        slideRef.current.scale.z += 0.05;
-      }
-    }
-  };
+  const Transition = () => {};
 
   return (
     <mesh ref={slideRef} position={position}>
