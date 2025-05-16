@@ -19,7 +19,7 @@ const HomeSlide = ({ position, cursorPos, currentPage }) => {
   }, [cursorPos, position, rotationZ]);
 
   useFrame((state, delta) => {
-    StateFrame0(delta);
+    StageFrame0(delta);
   });
 
   const StageEffect0 = () => {
@@ -69,7 +69,7 @@ const HomeSlide = ({ position, cursorPos, currentPage }) => {
     setRotationX(rotationX);
     setRotationY(rotationX);
   };
-  const StateFrame0 = (delta) => {
+  const StageFrame0 = (delta) => {
     delta *= 5;
     if (slideRef.current) {
       if (slideRef.current.rotation.x > rotationX) {
@@ -123,6 +123,10 @@ const HomeSlide = ({ position, cursorPos, currentPage }) => {
       }
     }
   };
+
+  const StageEffect1 = () => {};
+
+  const StageFrame1 = (delta) => {};
 
   const Transition = () => {};
 
