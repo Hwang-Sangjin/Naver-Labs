@@ -14,6 +14,8 @@ const HomeSlide = ({ position, cursorPos, currentPage }) => {
   const cursorHistory = useRef([]);
   const maxHistory = 3; // Number of past positions to average
 
+  /**
+   * 
   useEffect(() => {
     StageEffect0();
   }, [cursorPos, position, rotationZ]);
@@ -129,6 +131,7 @@ const HomeSlide = ({ position, cursorPos, currentPage }) => {
   const StageFrame1 = (delta) => {};
 
   const Transition = () => {};
+   */
 
   return (
     <mesh ref={slideRef} position={position}>
