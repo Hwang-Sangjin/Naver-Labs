@@ -15,6 +15,7 @@ const HomeExperience = ({ SlidePos }) => {
   const { camera } = useThree();
   const data = useScroll();
   const [currentPage, setCurrentPage] = useState(0);
+  const [pageState, setPageState] = useState(0);
 
   const { testData, setTestData } = useTestStore();
 
@@ -34,6 +35,25 @@ const HomeExperience = ({ SlidePos }) => {
       );
     });
   }, []);
+
+  useEffect(() => {
+    Transition(currentPage + 1);
+
+    const timer = setTimeout(() => {
+      setPageState(currentPage + 1);
+    }, 2000);
+
+    // Cleanup to clear the timeout if currentPage changes or component unmounts
+    return () => clearTimeout(timer);
+  }, [currentPage]);
+
+  useEffect(() => {
+    console.log(pageState);
+  }, [pageState]);
+
+  const Transition = (currentPage) => {
+    setPageState(-1 * currentPage);
+  };
 
   useFrame((state) => {
     raycaster.current.setFromCamera(screenCursor, camera);
@@ -63,7 +83,7 @@ const HomeExperience = ({ SlidePos }) => {
             key={key}
             position={e}
             cursorPos={cursorPos}
-            currentPage={currentPage}
+            pageState={pageState}
           />
         );
       })}

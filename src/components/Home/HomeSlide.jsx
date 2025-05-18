@@ -2,7 +2,7 @@ import { useFrame } from "@react-three/fiber";
 import { useEffect, useState, useRef, useTransition } from "react";
 import * as THREE from "three";
 
-const HomeSlide = ({ position, cursorPos, currentPage }) => {
+const HomeSlide = ({ position, cursorPos, pageState }) => {
   const [distanceOpacity, setDistanceOpacity] = useState(0.25);
   const [rotationZ, setRotationZ] = useState(0);
   const [rotationX, setRotationX] = useState(0);
@@ -13,6 +13,10 @@ const HomeSlide = ({ position, cursorPos, currentPage }) => {
   // Store history of cursor positions for smoothing
   const cursorHistory = useRef([]);
   const maxHistory = 3; // Number of past positions to average
+
+  useEffect(() => {
+    console.log(pageState);
+  }, [pageState]);
 
   /**
    * 
