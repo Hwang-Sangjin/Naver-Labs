@@ -8,6 +8,7 @@ const HomeSlide = ({ position, cursorPos, pageState }) => {
   const [rotationX, setRotationX] = useState(0);
   const [rotationY, setRotationY] = useState(0);
   const [slideScale, setSlideScale] = useState(1);
+  const [color, setColor] = useState("#14cf64"); //
   const slideRef = useRef();
 
   // Store history of cursor positions for smoothing
@@ -15,21 +16,27 @@ const HomeSlide = ({ position, cursorPos, pageState }) => {
   const maxHistory = 3; // Number of past positions to average
 
   useEffect(() => {
-    console.log(pageState);
-  }, [pageState]);
+    if (pageState == 0) {
+      StageEffect0();
+    } else if (pageState < 0) {
+      Transition();
+    } else if (pageState == 1) {
+      StageEffect2();
+    }
+  }, [cursorPos, position]);
 
-  /**
-   * 
-  useEffect(() => {
-    StageEffect0();
-  }, [cursorPos, position, rotationZ]);
-
-  useFrame((state, delta) => {
-    StageFrame0(delta);
-  });
+  const Transition = () => {
+    setDistanceOpacity(1);
+    setSlideScale(3);
+    setRotationX(Math.PI / 2);
+    setRotationY(0);
+    setRotationZ(0);
+    setColor("#183c42");
+  };
 
   const StageEffect0 = () => {
-    setSlideScale([1, 1, 1]);
+    setSlideScale(1);
+    setColor("#14cf64");
     // Update cursor position history
     cursorHistory.current.push(new THREE.Vector3(...cursorPos));
     if (cursorHistory.current.length > maxHistory) {
@@ -75,6 +82,20 @@ const HomeSlide = ({ position, cursorPos, pageState }) => {
     setRotationX(rotationX);
     setRotationY(rotationX);
   };
+
+  const StageEffect2 = () => {
+    //setDistanceOpacity(0.25);
+    setSlideScale(1);
+    setRotationX(0);
+    setRotationY(0);
+    setRotationZ(0);
+    setColor("#94c5fe");
+  };
+
+  useFrame((state, delta) => {
+    StageFrame0(delta);
+  });
+
   const StageFrame0 = (delta) => {
     delta *= 5;
     if (slideRef.current) {
@@ -130,18 +151,11 @@ const HomeSlide = ({ position, cursorPos, pageState }) => {
     }
   };
 
-  const StageEffect1 = () => {};
-
-  const StageFrame1 = (delta) => {};
-
-  const Transition = () => {};
-   */
-
   return (
     <mesh ref={slideRef} position={position}>
       <boxGeometry args={[1.6, 0.15, 1]} />
       <meshBasicMaterial
-        color={"#14cf64"}
+        color={color}
         transparent={true}
         opacity={distanceOpacity}
       />
