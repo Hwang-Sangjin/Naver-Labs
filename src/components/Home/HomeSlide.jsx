@@ -26,7 +26,7 @@ const HomeSlide = ({ position, cursorPos, pageState }) => {
   }, [cursorPos, position]);
 
   const Transition = () => {
-    setDistanceOpacity(1);
+    setDistanceOpacity(0.25);
     setSlideScale(3);
     setRotationX(Math.PI / 2);
     setRotationY(0);
