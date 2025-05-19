@@ -49,12 +49,8 @@ const HomeExperience = ({ SlidePos }) => {
   }, [currentPage]);
 
   useEffect(() => {
-    console.log(pageState);
-  }, [pageState]);
-
-  const Transition = (currentPage) => {
-    setPageState(-1 * currentPage);
-  };
+    console.log(cursorPos);
+  }, [cursorPos]);
 
   useFrame((state) => {
     raycaster.current.setFromCamera(screenCursor, camera);
