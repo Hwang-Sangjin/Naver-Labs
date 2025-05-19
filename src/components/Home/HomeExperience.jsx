@@ -37,10 +37,11 @@ const HomeExperience = ({ SlidePos }) => {
   }, []);
 
   useEffect(() => {
-    Transition(currentPage);
+    setPageState(currentPage);
+    setCursorPos([0, 0, 0]);
 
     const timer = setTimeout(() => {
-      setPageState(currentPage);
+      setPageState(currentPage + 1);
     }, 2000);
 
     // Cleanup to clear the timeout if currentPage changes or component unmounts

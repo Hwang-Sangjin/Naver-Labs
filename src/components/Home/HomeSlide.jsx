@@ -16,11 +16,11 @@ const HomeSlide = ({ position, cursorPos, pageState }) => {
   const maxHistory = 3; // Number of past positions to average
 
   useEffect(() => {
-    if (pageState == 0) {
+    if (pageState == 1) {
       StageEffect0();
-    } else if (pageState < 0) {
+    } else if (pageState % 2 === 0) {
       Transition();
-    } else if (pageState == 1) {
+    } else if (pageState == 3) {
       StageEffect2();
     }
   }, [cursorPos, position]);
