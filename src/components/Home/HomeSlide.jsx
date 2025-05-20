@@ -37,17 +37,32 @@ const HomeSlide = ({ position, cursorPos, pageState }) => {
       StageEffect0();
     } else if (pageState % 2 === 0) {
       Transition();
-    } else if (pageState == 3) {
+    } else if (pageState === 3) {
       StageEffect2();
+    } else if (pageState === 5) {
+      StageEffect4();
     }
   }, [cursorPos, position, pageState]);
 
   const Transition = () => {
+    // Calculate distance between card position and smoothed cursor position
+    const A = new THREE.Vector3(...position);
+    const B = new THREE.Vector3(0, 0, 0);
+    const C = new THREE.Vector3(...cursorPos);
+
+    // Calculate direction from card position (A) to smoothed cursor position (B)
+    const direction = new THREE.Vector3().subVectors(B, A);
+
+    // Z-axis rotation: Align card to face the cursor
+    const exactRotationZ = Math.atan2(direction.y, direction.x);
+
+    setRotationZ(exactRotationZ);
+
     setDistanceOpacity(0.25);
     setSlideScale(3);
     setRotationX(Math.PI / 2);
     setRotationY(0);
-    setRotationZ(0);
+    //setRotationZ(0);
     setColor("#183c42");
   };
 
@@ -111,21 +126,22 @@ const HomeSlide = ({ position, cursorPos, pageState }) => {
     // Calculate distance between card position and smoothed cursor position
     const A = new THREE.Vector3(...position);
     const B = new THREE.Vector3(0, 0, 0);
+    const C = new THREE.Vector3(...cursorPos);
 
     // Calculate direction from card position (A) to smoothed cursor position (B)
-    const direction = new THREE.Vector3().subVectors(B, A);
+    const direction = new THREE.Vector3().subVectors(C, A);
 
     // Z-axis rotation: Align card to face the cursor
     const exactRotationZ = Math.atan2(direction.y, direction.x);
 
     setRotationZ(exactRotationZ);
 
+    const distance = A.distanceTo(B) / 20;
+    setRotationX(distance);
+    setRotationY(distance);
+
     // angle Color
-    const degree = calculateAngleThree(
-      new THREE.Vector3(...position),
-      originPoint,
-      new THREE.Vector3(...cursorPos)
-    );
+    const degree = calculateAngleThree(A, B, C);
 
     if (degree < 50) {
       setColor("#94c5fe");
@@ -135,10 +151,21 @@ const HomeSlide = ({ position, cursorPos, pageState }) => {
     }
   };
 
+  const StageEffect4 = () => {
+    //setDistanceOpacity(0.25);
+    setSlideScale(1);
+    setRotationX(0);
+    setRotationY(0);
+    setRotationZ(0);
+    setColor("#14cf64");
+  };
+
   useFrame((state, delta) => {
     StageFrame0(delta);
   });
 
+  // 0도 180도 360도 나눠서 계산
+  // 안그러면 확 돌아버리는 동작 발생
   const StageFrame0 = (delta) => {
     delta *= 5;
     if (slideRef.current) {
