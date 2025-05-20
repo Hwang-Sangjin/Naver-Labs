@@ -37,11 +37,11 @@ const HomeExperience = ({ SlidePos }) => {
   }, []);
 
   useEffect(() => {
-    setPageState(currentPage);
+    setPageState(currentPage * 2);
     setCursorPos([0, 0, 0]);
 
     const timer = setTimeout(() => {
-      setPageState(currentPage + 1);
+      setPageState(currentPage * 2 + 1);
     }, 2000);
 
     // Cleanup to clear the timeout if currentPage changes or component unmounts
@@ -49,8 +49,8 @@ const HomeExperience = ({ SlidePos }) => {
   }, [currentPage]);
 
   useEffect(() => {
-    console.log(cursorPos);
-  }, [cursorPos]);
+    console.log(pageState);
+  }, [pageState]);
 
   useFrame((state) => {
     raycaster.current.setFromCamera(screenCursor, camera);

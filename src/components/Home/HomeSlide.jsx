@@ -14,6 +14,23 @@ const HomeSlide = ({ position, cursorPos, pageState }) => {
   // Store history of cursor positions for smoothing
   const cursorHistory = useRef([]);
   const maxHistory = 3; // Number of past positions to average
+  const originPoint = new THREE.Vector3(0, 0, 0);
+
+  const calculateAngleThree = (A, B, C) => {
+    // Vectors BA and BC
+    const vectorBA = { x: A.x - B.x, y: A.y - B.y };
+    const vectorBC = { x: C.x - B.x, y: C.y - B.y };
+
+    // Calculate angle using atan2
+    const angle =
+      Math.atan2(vectorBC.y, vectorBC.x) - Math.atan2(vectorBA.y, vectorBA.x);
+
+    // Convert radians to degrees and normalize to [0, 360]
+    let degrees = (angle * 180) / Math.PI;
+    if (degrees < 0) degrees += 360;
+
+    return degrees;
+  };
 
   useEffect(() => {
     if (pageState == 1) {
@@ -23,7 +40,7 @@ const HomeSlide = ({ position, cursorPos, pageState }) => {
     } else if (pageState == 3) {
       StageEffect2();
     }
-  }, [cursorPos, position]);
+  }, [cursorPos, position, pageState]);
 
   const Transition = () => {
     setDistanceOpacity(0.25);
@@ -89,7 +106,33 @@ const HomeSlide = ({ position, cursorPos, pageState }) => {
     setRotationX(0);
     setRotationY(0);
     setRotationZ(0);
-    setColor("#94c5fe");
+    setColor("#14cf64");
+
+    // Calculate distance between card position and smoothed cursor position
+    const A = new THREE.Vector3(...position);
+    const B = new THREE.Vector3(0, 0, 0);
+
+    // Calculate direction from card position (A) to smoothed cursor position (B)
+    const direction = new THREE.Vector3().subVectors(B, A);
+
+    // Z-axis rotation: Align card to face the cursor
+    const exactRotationZ = Math.atan2(direction.y, direction.x);
+
+    setRotationZ(exactRotationZ);
+
+    // angle Color
+    const degree = calculateAngleThree(
+      new THREE.Vector3(...position),
+      originPoint,
+      new THREE.Vector3(...cursorPos)
+    );
+
+    if (degree < 50) {
+      setColor("#94c5fe");
+      setDistanceOpacity(1);
+    } else {
+      setDistanceOpacity(0.25);
+    }
   };
 
   useFrame((state, delta) => {
@@ -153,7 +196,7 @@ const HomeSlide = ({ position, cursorPos, pageState }) => {
 
   return (
     <mesh ref={slideRef} position={position}>
-      <boxGeometry args={[1.6, 0.15, 1]} />
+      <boxGeometry args={[1.5, 0.15, 1]} />
       <meshBasicMaterial
         color={color}
         transparent={true}
