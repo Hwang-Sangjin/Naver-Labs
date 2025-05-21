@@ -44,6 +44,10 @@ const HomeSlide = ({ position, cursorPos, pageState }) => {
     }
   }, [cursorPos, position, pageState]);
 
+  useEffect(() => {
+    console.log(rotationZ);
+  }, [rotationZ]);
+
   const Transition = () => {
     // Calculate distance between card position and smoothed cursor position
     const A = new THREE.Vector3(...position);
@@ -208,7 +212,6 @@ const HomeSlide = ({ position, cursorPos, pageState }) => {
           delta
         );
       }
-
       if (slideRef.current.scale.x > slideScale) {
         slideRef.current.scale.x -= 0.05;
         slideRef.current.scale.y -= 0.05;
