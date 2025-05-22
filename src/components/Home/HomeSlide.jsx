@@ -168,6 +168,34 @@ const HomeSlide = ({ position, cursorPos, pageState }) => {
     StageFrame0(delta);
   });
 
+  const getCubeAngleToAdd = (currentAngle, targetAngle, inDegrees = false) => {
+    // Convert to radians if inputs are in degrees
+    const toRad = inDegrees ? THREE.MathUtils.degToRad : (x) => x;
+    const current = toRad(currentAngle);
+    const target = toRad(targetAngle);
+
+    // Normalize angles to [0, 2π)
+    const normalizedCurrent =
+      ((current % (2 * Math.PI)) + 2 * Math.PI) % (2 * Math.PI);
+    const normalizedTarget =
+      ((target % (2 * Math.PI)) + 2 * Math.PI) % (2 * Math.PI);
+
+    // Calculate differences to target and target+180° (front and back faces)
+    let deltaFront = normalizedTarget - normalizedCurrent;
+    let deltaBack =
+      ((normalizedTarget + Math.PI) % (2 * Math.PI)) - normalizedCurrent;
+
+    // Normalize deltas to [-π, π]
+    if (deltaFront > Math.PI) deltaFront -= 2 * Math.PI;
+    else if (deltaFront < -Math.PI) deltaFront += 2 * Math.PI;
+
+    if (deltaBack > Math.PI) deltaBack -= 2 * Math.PI;
+    else if (deltaBack < -Math.PI) deltaBack += 2 * Math.PI;
+
+    // Choose the smaller absolute delta
+    return Math.abs(deltaFront) <= Math.abs(deltaBack) ? deltaFront : deltaBack;
+  };
+
   // 0도 180도 360도 나눠서 계산
   // 안그러면 확 돌아버리는 동작 발생
   const StageFrame0 = (delta) => {
@@ -199,19 +227,14 @@ const HomeSlide = ({ position, cursorPos, pageState }) => {
           delta
         );
       }
-      if (slideRef.current.rotation.z > rotationZ) {
-        slideRef.current.rotation.z = THREE.MathUtils.lerp(
-          slideRef.current.rotation.z,
-          rotationZ,
-          delta
-        );
-      } else if (slideRef.current.rotation.z < rotationZ) {
-        slideRef.current.rotation.z = THREE.MathUtils.lerp(
-          slideRef.current.rotation.z,
-          rotationZ,
-          delta
-        );
-      }
+
+      const dir = getCubeAngleToAdd(slideRef.current.rotation.z, rotationZ);
+      slideRef.current.rotation.z = THREE.MathUtils.lerp(
+        slideRef.current.rotation.z,
+        dir,
+        delta
+      );
+
       if (slideRef.current.scale.x > slideScale) {
         slideRef.current.scale.x -= 0.05;
         slideRef.current.scale.y -= 0.05;
