@@ -134,7 +134,7 @@ const HomeSlide = ({ position, cursorPos, pageState, index }) => {
     if (degree < 50 || index === 127) {
       setColor("#94c5fe");
       setDistanceOpacity(1);
-      const distance = A.distanceTo(B) / 20;
+      const distance = A.distanceTo(B) / 15;
       setRotationX(distance);
       setRotationY(distance);
     } else {
