@@ -74,19 +74,10 @@ const HomeSlide = ({ position, cursorPos, pageState }) => {
     setSlideScale(1);
     setColor("#14cf64");
     // Update cursor position history
-    cursorHistory.current.push(new THREE.Vector3(...cursorPos));
-    if (cursorHistory.current.length > maxHistory) {
-      cursorHistory.current.shift(); // Remove oldest position
-    }
-
-    // Calculate smoothed cursor position (average of history)
-    const smoothedCursorPos = cursorHistory.current
-      .reduce((acc, pos) => acc.add(pos), new THREE.Vector3())
-      .divideScalar(cursorHistory.current.length);
 
     // Calculate distance between card position and smoothed cursor position
     const A = new THREE.Vector3(...position);
-    const B = smoothedCursorPos;
+    const B = new THREE.Vector3(...cursorPos);
     const distance = A.distanceTo(B);
 
     // Set opacity based on distance (brighter when closer)
@@ -98,14 +89,8 @@ const HomeSlide = ({ position, cursorPos, pageState }) => {
 
     // Z-axis rotation: Align card to face the cursor
     const exactRotationZ = Math.atan2(direction.y, direction.x);
-    const maxDistance = 8;
-    const precisionFactor = Math.max(0, 1 - distance / maxDistance); // 1 (close) to 0 (far)
-    const rotationDamping = 0.5;
-    const adjustedRotationZ =
-      rotationZ * (1 - precisionFactor) * rotationDamping +
-      exactRotationZ * precisionFactor;
 
-    setRotationZ(adjustedRotationZ);
+    setRotationZ(exactRotationZ);
 
     // X-axis rotation: Enhanced tilt based on distance for 3D effect
     const maxRotationX = 1; // Increased for more pronounced tilt
@@ -168,32 +153,22 @@ const HomeSlide = ({ position, cursorPos, pageState }) => {
     StageFrame0(delta);
   });
 
-  const getCubeAngleToAdd = (currentAngle, targetAngle, inDegrees = false) => {
-    // Convert to radians if inputs are in degrees
-    const toRad = inDegrees ? THREE.MathUtils.degToRad : (x) => x;
-    const current = toRad(currentAngle);
-    const target = toRad(targetAngle);
+  const getShortestRotation = (currentAngle, targetAngle) => {
+    // 각도를 라디안으로 변환
+    const currentRad = THREE.MathUtils.degToRad(currentAngle);
+    const targetRad = THREE.MathUtils.degToRad(targetAngle);
 
-    // Normalize angles to [0, 2π)
-    const normalizedCurrent =
-      ((current % (2 * Math.PI)) + 2 * Math.PI) % (2 * Math.PI);
-    const normalizedTarget =
-      ((target % (2 * Math.PI)) + 2 * Math.PI) % (2 * Math.PI);
+    // 180도 주기성을 고려한 정규화
+    const normalizeAngle = (angle) => {
+      angle = angle % Math.PI; // 180도 주기
+      if (angle > Math.PI / 2) angle -= Math.PI; // 90도 초과 시 반대 방향으로
+      if (angle < -Math.PI / 2) angle += Math.PI; // -90도 미만 시 반대 방향으로
+      return angle;
+    };
 
-    // Calculate differences to target and target+180° (front and back faces)
-    let deltaFront = normalizedTarget - normalizedCurrent;
-    let deltaBack =
-      ((normalizedTarget + Math.PI) % (2 * Math.PI)) - normalizedCurrent;
-
-    // Normalize deltas to [-π, π]
-    if (deltaFront > Math.PI) deltaFront -= 2 * Math.PI;
-    else if (deltaFront < -Math.PI) deltaFront += 2 * Math.PI;
-
-    if (deltaBack > Math.PI) deltaBack -= 2 * Math.PI;
-    else if (deltaBack < -Math.PI) deltaBack += 2 * Math.PI;
-
-    // Choose the smaller absolute delta
-    return Math.abs(deltaFront) <= Math.abs(deltaBack) ? deltaFront : deltaBack;
+    // 최단 경로 계산
+    let delta = normalizeAngle(targetRad - currentRad);
+    return THREE.MathUtils.radToDeg(delta); // 라디안을 도로 변환
   };
 
   // 0도 180도 360도 나눠서 계산
@@ -228,7 +203,7 @@ const HomeSlide = ({ position, cursorPos, pageState }) => {
         );
       }
 
-      const dir = getCubeAngleToAdd(slideRef.current.rotation.z, rotationZ);
+      const dir = getShortestRotation(slideRef.current.rotation.z, rotationZ);
       slideRef.current.rotation.z = THREE.MathUtils.lerp(
         slideRef.current.rotation.z,
         dir,
