@@ -81,6 +81,7 @@ const HomeExperience = ({ SlidePos }) => {
             position={e}
             cursorPos={cursorPos}
             pageState={pageState}
+            index={index}
           />
         );
       })}

@@ -2,7 +2,7 @@ import { useFrame } from "@react-three/fiber";
 import { useEffect, useState, useRef, useTransition } from "react";
 import * as THREE from "three";
 
-const HomeSlide = ({ position, cursorPos, pageState }) => {
+const HomeSlide = ({ position, cursorPos, pageState, index }) => {
   const [distanceOpacity, setDistanceOpacity] = useState(0.25);
   const [rotationZ, setRotationZ] = useState(0);
   const [rotationX, setRotationX] = useState(0);
@@ -44,10 +44,6 @@ const HomeSlide = ({ position, cursorPos, pageState }) => {
     }
   }, [cursorPos, position, pageState]);
 
-  useEffect(() => {
-    console.log(rotationZ);
-  }, [rotationZ]);
-
   const Transition = () => {
     // Calculate distance between card position and smoothed cursor position
     const A = new THREE.Vector3(...position);
@@ -72,7 +68,9 @@ const HomeSlide = ({ position, cursorPos, pageState }) => {
 
   const StageEffect0 = () => {
     setSlideScale(1);
+
     setColor("#14cf64");
+
     // Update cursor position history
 
     // Calculate distance between card position and smoothed cursor position
@@ -89,6 +87,10 @@ const HomeSlide = ({ position, cursorPos, pageState }) => {
 
     // Z-axis rotation: Align card to face the cursor
     const exactRotationZ = Math.atan2(direction.y, direction.x);
+    const dir = getShortestRotation(
+      slideRef.current.rotation.z,
+      exactRotationZ
+    );
 
     setRotationZ(exactRotationZ);
 
@@ -153,30 +155,27 @@ const HomeSlide = ({ position, cursorPos, pageState }) => {
     StageFrame0(delta);
   });
 
-  const getShortestRotation = (currentAngle, targetAngle) => {
-    // 각도를 라디안으로 변환
-    const currentRad = THREE.MathUtils.degToRad(currentAngle);
-    const targetRad = THREE.MathUtils.degToRad(targetAngle);
-
-    // 180도 주기성을 고려한 정규화
+  const getShortestRotation = (currentRad, targetRad) => {
+    // -π ~ π 범위로 정규화
     const normalizeAngle = (angle) => {
-      angle = angle % Math.PI; // 180도 주기
-      if (angle > Math.PI / 2) angle -= Math.PI; // 90도 초과 시 반대 방향으로
-      if (angle < -Math.PI / 2) angle += Math.PI; // -90도 미만 시 반대 방향으로
+      angle = ((angle + Math.PI) % (2 * Math.PI)) - Math.PI; // -π ~ π
       return angle;
     };
 
     // 최단 경로 계산
     let delta = normalizeAngle(targetRad - currentRad);
-    return THREE.MathUtils.radToDeg(delta); // 라디안을 도로 변환
+
+    // 180° 대칭성 고려: π/2(90°) 이상이면 반대 방향 선택
+    if (delta > Math.PI / 2) delta -= Math.PI;
+    if (delta < -Math.PI / 2) delta += Math.PI;
+
+    return delta; // 라디안 단위로 반환
   };
 
-  // 0도 180도 360도 나눠서 계산
-  // 안그러면 확 돌아버리는 동작 발생
   const StageFrame0 = (delta) => {
     delta *= 5;
     if (slideRef.current) {
-      if (slideRef.current.rotation.x > rotationX) {
+      if (slideRef.current.rotation.x >= rotationX) {
         slideRef.current.rotation.x = THREE.MathUtils.lerp(
           slideRef.current.rotation.x,
           rotationX,
@@ -189,26 +188,35 @@ const HomeSlide = ({ position, cursorPos, pageState }) => {
           delta
         );
       }
-      if (slideRef.current.rotation.y > rotationY) {
+      if (slideRef.current.rotation.y >= rotationY) {
         slideRef.current.rotation.y = THREE.MathUtils.lerp(
           slideRef.current.rotation.y,
           rotationY,
           delta
         );
       } else if (slideRef.current.rotation.y < rotationY) {
-        slideRef.current.y = THREE.MathUtils.lerp(
+        slideRef.current.rotation.y = THREE.MathUtils.lerp(
           slideRef.current.rotation.y,
           rotationY,
           delta
         );
       }
 
-      const dir = getShortestRotation(slideRef.current.rotation.z, rotationZ);
-      slideRef.current.rotation.z = THREE.MathUtils.lerp(
-        slideRef.current.rotation.z,
-        dir,
-        delta
-      );
+      const currentRad = slideRef.current.rotation.z;
+      // 최단 회전 각도 계산 (라디안)
+      const deltaAngleRad = getShortestRotation(currentRad, rotationZ);
+
+      // 목표 라디안 값 = 현재 + 최단 경로
+      const targetRad = currentRad + deltaAngleRad;
+
+      // 부드러운 보간
+      if (Math.abs(currentRad - targetRad) > 0.1) {
+        slideRef.current.rotation.z = THREE.MathUtils.lerp(
+          currentRad,
+          targetRad,
+          delta
+        );
+      }
 
       if (slideRef.current.scale.x > slideScale) {
         slideRef.current.scale.x -= 0.05;
