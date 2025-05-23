@@ -131,7 +131,7 @@ const HomeSlide = ({ position, cursorPos, pageState, index }) => {
     // angle Color
     const degree = calculateAngleThree(A, B, C);
 
-    if (degree < 50) {
+    if (degree < 50 || index === 127) {
       setColor("#94c5fe");
       setDistanceOpacity(1);
       const distance = A.distanceTo(B) / 20;
