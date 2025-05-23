@@ -115,21 +115,18 @@ const HomeSlide = ({ position, cursorPos, pageState, index }) => {
     setColor("#14cf64");
 
     // Calculate distance between card position and smoothed cursor position
+    const OriginPos = new THREE.Vector3(0, 0, 0);
     const A = new THREE.Vector3(...position);
     const B = new THREE.Vector3(0, 0, 0);
     const C = new THREE.Vector3(...cursorPos);
 
     // Calculate direction from card position (A) to smoothed cursor position (B)
-    const direction = new THREE.Vector3().subVectors(C, A);
+    const direction = new THREE.Vector3().subVectors(C, OriginPos);
 
     // Z-axis rotation: Align card to face the cursor
     const exactRotationZ = Math.atan2(direction.y, direction.x);
 
     setRotationZ(exactRotationZ);
-
-    const distance = A.distanceTo(B) / 20;
-    setRotationX(distance);
-    setRotationY(distance);
 
     // angle Color
     const degree = calculateAngleThree(A, B, C);
@@ -137,6 +134,9 @@ const HomeSlide = ({ position, cursorPos, pageState, index }) => {
     if (degree < 50) {
       setColor("#94c5fe");
       setDistanceOpacity(1);
+      const distance = A.distanceTo(B) / 20;
+      setRotationX(distance);
+      setRotationY(distance);
     } else {
       setDistanceOpacity(0.25);
     }
