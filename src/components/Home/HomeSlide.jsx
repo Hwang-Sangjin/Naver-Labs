@@ -210,13 +210,11 @@ const HomeSlide = ({ position, cursorPos, pageState, index }) => {
       const targetRad = currentRad + deltaAngleRad;
 
       // 부드러운 보간
-      if (Math.abs(currentRad - targetRad) > 0.01) {
-        slideRef.current.rotation.z = THREE.MathUtils.lerp(
-          currentRad,
-          targetRad,
-          delta
-        );
-      }
+      slideRef.current.rotation.z = THREE.MathUtils.lerp(
+        currentRad,
+        targetRad,
+        delta
+      );
 
       if (slideRef.current.scale.x > slideScale) {
         slideRef.current.scale.x -= 0.05;
