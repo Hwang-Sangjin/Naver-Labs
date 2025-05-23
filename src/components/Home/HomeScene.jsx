@@ -16,9 +16,9 @@ const HomeScene = () => {
 
   const SlidePos = [];
   for (let i = 0; i < 17; i++) {
-    for (let j = 0; j < 15; j++) {
+    for (let j = 0; j < 23; j++) {
       const x = -16 + i * 2;
-      const y = -12 + j * 1.7;
+      const y = -20 + j * 1.7;
       SlidePos.push([x, y, 0]);
     }
   }
