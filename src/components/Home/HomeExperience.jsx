@@ -49,10 +49,6 @@ const HomeExperience = ({ SlidePos }) => {
     return () => clearTimeout(timer);
   }, [currentPage]);
 
-  useEffect(() => {
-    console.log(waveRadius);
-  }, [waveRadius]);
-
   useFrame((state) => {
     raycaster.current.setFromCamera(screenCursor, camera);
     const intersection = raycaster.current.intersectObject(planeRef.current);
@@ -81,7 +77,6 @@ const HomeExperience = ({ SlidePos }) => {
     <>
       {SlidePos.map((e, index) => {
         const key = `Slide${index}`;
-
         return (
           <HomeSlide
             key={key}
@@ -90,6 +85,8 @@ const HomeExperience = ({ SlidePos }) => {
             pageState={pageState}
             index={index}
             waveRadius={waveRadius}
+            i={Math.floor(index / 24)}
+            j={index % 18}
           />
         );
       })}

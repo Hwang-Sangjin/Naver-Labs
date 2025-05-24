@@ -2,7 +2,15 @@ import { useFrame } from "@react-three/fiber";
 import { useEffect, useState, useRef, useTransition } from "react";
 import * as THREE from "three";
 
-const HomeSlide = ({ position, cursorPos, pageState, index, waveRadius }) => {
+const HomeSlide = ({
+  position,
+  cursorPos,
+  pageState,
+  index,
+  waveRadius,
+  i,
+  j,
+}) => {
   const [distanceOpacity, setDistanceOpacity] = useState(0.25);
   const [rotationZ, setRotationZ] = useState(0);
   const [rotationX, setRotationX] = useState(0);
@@ -145,7 +153,6 @@ const HomeSlide = ({ position, cursorPos, pageState, index, waveRadius }) => {
     setSlideScale(1);
     setRotationX(0);
     setRotationY(0);
-    setRotationZ(0);
     setColor("#14cf64");
 
     setSlidePosition([position[0], position[1] / 2, position[2]]);
@@ -192,6 +199,13 @@ const HomeSlide = ({ position, cursorPos, pageState, index, waveRadius }) => {
       setColor("#14cf64");
       setDistanceOpacity(0.25);
     }
+
+    setRotationZ(Math.sin((i * waveRadius) / 16) / 3);
+    setSlidePosition([
+      position[0] + Math.cos((i * waveRadius) / 16) / 20,
+      position[1] / 2 + Math.cos((i * waveRadius) / 16) / 40,
+      position[2],
+    ]);
   };
 
   useFrame((state, delta) => {
