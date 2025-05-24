@@ -16,6 +16,7 @@ const HomeExperience = ({ SlidePos }) => {
   const data = useScroll();
   const [currentPage, setCurrentPage] = useState(0);
   const [pageState, setPageState] = useState(0);
+  const [waveRadius, setWaveRadius] = useState(0);
 
   const { testData, setTestData } = useTestStore();
 
@@ -48,6 +49,10 @@ const HomeExperience = ({ SlidePos }) => {
     return () => clearTimeout(timer);
   }, [currentPage]);
 
+  useEffect(() => {
+    console.log(waveRadius);
+  }, [waveRadius]);
+
   useFrame((state) => {
     raycaster.current.setFromCamera(screenCursor, camera);
     const intersection = raycaster.current.intersectObject(planeRef.current);
@@ -66,6 +71,12 @@ const HomeExperience = ({ SlidePos }) => {
     }
   });
 
+  useFrame((state, delta) => {
+    if (pageState !== 5) return;
+
+    setWaveRadius((prev) => (prev + delta * 5) % 40);
+  });
+
   return (
     <>
       {SlidePos.map((e, index) => {
@@ -78,6 +89,7 @@ const HomeExperience = ({ SlidePos }) => {
             cursorPos={cursorPos}
             pageState={pageState}
             index={index}
+            waveRadius={waveRadius}
           />
         );
       })}

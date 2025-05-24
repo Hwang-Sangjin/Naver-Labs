@@ -2,7 +2,7 @@ import { useFrame } from "@react-three/fiber";
 import { useEffect, useState, useRef, useTransition } from "react";
 import * as THREE from "three";
 
-const HomeSlide = ({ position, cursorPos, pageState, index }) => {
+const HomeSlide = ({ position, cursorPos, pageState, index, waveRadius }) => {
   const [distanceOpacity, setDistanceOpacity] = useState(0.25);
   const [rotationZ, setRotationZ] = useState(0);
   const [rotationX, setRotationX] = useState(0);
@@ -11,11 +11,8 @@ const HomeSlide = ({ position, cursorPos, pageState, index }) => {
   const [color, setColor] = useState("#14cf64"); //
   const [slidePosition, setSlidePosition] = useState([...position]);
   const slideRef = useRef();
-
-  // Store history of cursor positions for smoothing
-  const cursorHistory = useRef([]);
-  const maxHistory = 3; // Number of past positions to average
-  const originPoint = new THREE.Vector3(0, 0, 0);
+  const WaveLengthThresholdValue = 4;
+  const WaveDisThresholdValue = 11;
 
   const calculateAngleThree = (A, B, C) => {
     // Vectors BA and BC
@@ -145,7 +142,6 @@ const HomeSlide = ({ position, cursorPos, pageState, index }) => {
   };
 
   const StageEffect4 = () => {
-    //setDistanceOpacity(0.25);
     setSlideScale(1);
     setRotationX(0);
     setRotationY(0);
@@ -153,6 +149,49 @@ const HomeSlide = ({ position, cursorPos, pageState, index }) => {
     setColor("#14cf64");
 
     setSlidePosition([position[0], position[1] / 2, position[2]]);
+
+    const waveOriginPoint = new THREE.Vector3(-16, 0, 0);
+    const disX = waveOriginPoint.x - position[0];
+    const disY = waveOriginPoint.y - position[1];
+
+    // x축 반지름(a)와 y축 반지름(b) 비율 설정 (x축으로 더 긴 타원, 예: b = a * 0.6)
+    const k = 0.75; // y축 반지름을 x축 반지름의 60%로 설정
+    const aMin = [
+      waveRadius,
+      (waveRadius + WaveDisThresholdValue) % 40,
+      (waveRadius + WaveDisThresholdValue * 2) % 40,
+    ];
+    const bMin = aMin.map((a) => a * k); // y축 반지름
+    const aMax = [
+      waveRadius + WaveLengthThresholdValue,
+      (waveRadius + WaveLengthThresholdValue + WaveDisThresholdValue) % 40,
+      (waveRadius + WaveLengthThresholdValue + WaveDisThresholdValue * 2) % 40,
+    ];
+    const bMax = aMax.map((a) => a * k);
+
+    // 타원 방정식 값 계산: (x - ox)^2 / a^2 + (y - oy)^2 / b^2
+    const isInEllipse = (a, b) => {
+      return disX ** 2 / a ** 2 + disY ** 2 / b ** 2;
+    };
+
+    // 각 타원환 확인
+    let isInAnyEllipse = false;
+    for (let i = 0; i < 3; i++) {
+      const minValue = isInEllipse(aMin[i], bMin[i]);
+      const maxValue = isInEllipse(aMax[i], bMax[i]);
+      if (minValue >= 1 && maxValue <= 1) {
+        isInAnyEllipse = true;
+        break;
+      }
+    }
+
+    if (isInAnyEllipse) {
+      setColor("#80aedf");
+      setDistanceOpacity(1);
+    } else {
+      setColor("#14cf64");
+      setDistanceOpacity(0.25);
+    }
   };
 
   useFrame((state, delta) => {
