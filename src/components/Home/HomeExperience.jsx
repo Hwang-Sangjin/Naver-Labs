@@ -48,10 +48,6 @@ const HomeExperience = ({ SlidePos }) => {
     return () => clearTimeout(timer);
   }, [currentPage]);
 
-  useEffect(() => {
-    console.log(pageState);
-  }, [pageState]);
-
   useFrame((state) => {
     raycaster.current.setFromCamera(screenCursor, camera);
     const intersection = raycaster.current.intersectObject(planeRef.current);

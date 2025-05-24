@@ -9,7 +9,7 @@ const HomeSlide = ({ position, cursorPos, pageState, index }) => {
   const [rotationY, setRotationY] = useState(0);
   const [slideScale, setSlideScale] = useState(1);
   const [color, setColor] = useState("#14cf64"); //
-  const [slidePosition, setslidePosition] = useState([...position]);
+  const [slidePosition, setSlidePosition] = useState([...position]);
   const slideRef = useRef();
 
   // Store history of cursor positions for smoothing
@@ -114,7 +114,7 @@ const HomeSlide = ({ position, cursorPos, pageState, index }) => {
     setRotationY(0);
     setRotationZ(0);
     setColor("#14cf64");
-    setslidePosition([position[0], position[1], position[2]]);
+    setSlidePosition([position[0], position[1], position[2]]);
 
     // Calculate distance between card position and smoothed cursor position
     const OriginPos = new THREE.Vector3(0, 0, 0);
@@ -152,7 +152,7 @@ const HomeSlide = ({ position, cursorPos, pageState, index }) => {
     setRotationZ(0);
     setColor("#14cf64");
 
-    setslidePosition([position[0], position[1] / 2, position[2]]);
+    setSlidePosition([position[0], position[1] / 2, position[2]]);
   };
 
   useFrame((state, delta) => {
