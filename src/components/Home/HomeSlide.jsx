@@ -19,7 +19,7 @@ const HomeSlide = ({
   const [color, setColor] = useState("#14cf64"); //
   const [slidePosition, setSlidePosition] = useState([...position]);
   const slideRef = useRef();
-  const WaveLengthThresholdValue = 4;
+  const WaveLengthThresholdValue = 5;
   const WaveDisThresholdValue = 11;
 
   const calculateAngleThree = (A, B, C) => {
@@ -47,6 +47,8 @@ const HomeSlide = ({
       StageEffect2();
     } else if (pageState === 5) {
       StageEffect4();
+    } else if (pageState === 7) {
+      StageEffect6();
     }
   }, [cursorPos, position, pageState]);
 
@@ -162,7 +164,7 @@ const HomeSlide = ({
     const disY = waveOriginPoint.y - position[1];
 
     // x축 반지름(a)와 y축 반지름(b) 비율 설정 (x축으로 더 긴 타원, 예: b = a * 0.6)
-    const k = 0.75; // y축 반지름을 x축 반지름의 60%로 설정
+    const k = 0.8; // y축 반지름을 x축 반지름의 60%로 설정
     const aMin = [
       waveRadius,
       (waveRadius + WaveDisThresholdValue) % 40,
@@ -202,10 +204,20 @@ const HomeSlide = ({
 
     setRotationZ(Math.sin((i * waveRadius) / 16) / 3);
     setSlidePosition([
-      position[0] + Math.cos((i * waveRadius) / 16) / 20,
-      position[1] / 2 + Math.cos((i * waveRadius) / 16) / 40,
+      position[0] + Math.cos((i * waveRadius) / 12) / 20,
+      position[1] / 2 + Math.cos((i * waveRadius) / 12) / 40,
       position[2],
     ]);
+  };
+
+  const StageEffect6 = () => {
+    setSlideScale(1);
+    setRotationX(0);
+    setRotationY(0);
+    setRotationZ(Math.PI / 2);
+    setColor("#14cf64");
+
+    setSlidePosition([position[0], position[1], position[2]]);
   };
 
   useFrame((state, delta) => {
