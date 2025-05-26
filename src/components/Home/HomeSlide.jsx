@@ -221,7 +221,12 @@ const HomeSlide = ({
   };
 
   useFrame((state, delta) => {
-    StageFrame0(delta);
+    console.log(state);
+    if (pageState === 8) {
+      StageFrame8(delta);
+    } else {
+      StageFrame0(delta);
+    }
   });
 
   const getShortestRotation = (currentRad, targetRad) => {
@@ -296,6 +301,8 @@ const HomeSlide = ({
       }
     }
   };
+
+  const StageFrame8 = (clock, delta) => {};
 
   return (
     <mesh ref={slideRef} position={slidePosition}>
