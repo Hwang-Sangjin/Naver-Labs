@@ -1,5 +1,5 @@
 import { useFrame } from "@react-three/fiber";
-import { useEffect, useState, useRef, useTransition } from "react";
+import { useEffect, useState, useRef, useTransition, useMemo } from "react";
 import * as THREE from "three";
 
 const HomeSlide = ({
@@ -49,6 +49,8 @@ const HomeSlide = ({
       StageEffect4();
     } else if (pageState === 7) {
       StageEffect6();
+    } else if (pageState === 9) {
+      StateEffect8();
     }
   }, [cursorPos, position, pageState]);
 
@@ -221,12 +223,7 @@ const HomeSlide = ({
   };
 
   useFrame((state, delta) => {
-    console.log(state);
-    if (pageState === 8) {
-      StageFrame8(delta);
-    } else {
-      StageFrame0(delta);
-    }
+    StageFrame0(delta);
   });
 
   const getShortestRotation = (currentRad, targetRad) => {
@@ -301,8 +298,6 @@ const HomeSlide = ({
       }
     }
   };
-
-  const StageFrame8 = (clock, delta) => {};
 
   return (
     <mesh ref={slideRef} position={slidePosition}>
