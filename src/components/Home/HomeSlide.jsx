@@ -15,12 +15,13 @@ const HomeSlide = ({
   const [rotationZ, setRotationZ] = useState(0);
   const [rotationX, setRotationX] = useState(0);
   const [rotationY, setRotationY] = useState(0);
-  const [slideScale, setSlideScale] = useState(1);
+  const [slideScale, setSlideScale] = useState([1, 1, 1]); // Initial scale for the slide
   const [color, setColor] = useState("#14cf64"); //
   const [slidePosition, setSlidePosition] = useState([...position]);
   const slideRef = useRef();
   const WaveLengthThresholdValue = 5;
   const WaveDisThresholdValue = 11;
+  const WaveLengthPI = Math.PI * 13;
 
   const calculateAngleThree = (A, B, C) => {
     // Vectors BA and BC
@@ -50,7 +51,7 @@ const HomeSlide = ({
     } else if (pageState === 7) {
       StageEffect6();
     } else if (pageState === 9) {
-      StateEffect8();
+      // StateEffect8();
     }
   }, [cursorPos, position, pageState]);
 
@@ -66,18 +67,18 @@ const HomeSlide = ({
     // Z-axis rotation: Align card to face the cursor
     const exactRotationZ = Math.atan2(direction.y, direction.x);
 
-    setRotationZ(exactRotationZ);
+    setRotationZ(0);
 
-    setDistanceOpacity(0.25);
-    setSlideScale(3);
+    setDistanceOpacity(0.5);
+    setSlideScale([1.35, 1, 1.75]);
     setRotationX(Math.PI / 2);
     setRotationY(0);
     //setRotationZ(0);
-    setColor("#183c42");
+    setColor("#30947c");
   };
 
   const StageEffect0 = () => {
-    setSlideScale(1);
+    setSlideScale([1, 1, 1]);
 
     setColor("#14cf64");
 
@@ -118,11 +119,11 @@ const HomeSlide = ({
 
   const StageEffect2 = () => {
     //setDistanceOpacity(0.25);
-    setSlideScale(1);
+    setSlideScale([1, 1, 1]);
     setRotationX(0);
     setRotationY(0);
     setRotationZ(0);
-    setColor("#14cf64");
+    setColor("#30947c");
     setSlidePosition([position[0], position[1], position[2]]);
 
     // Calculate distance between card position and smoothed cursor position
@@ -142,7 +143,7 @@ const HomeSlide = ({
     // angle Color
     const degree = calculateAngleThree(A, B, C);
 
-    if (degree < 50 || index === 196) {
+    if (degree <= 20 || degree >= 340 || index === 196) {
       setColor("#94c5fe");
       setDistanceOpacity(1);
       const distance = A.distanceTo(B) / 15;
@@ -154,10 +155,10 @@ const HomeSlide = ({
   };
 
   const StageEffect4 = () => {
-    setSlideScale(1);
+    setSlideScale([1, 1, 1]);
     setRotationX(0);
     setRotationY(0);
-    setColor("#14cf64");
+    setColor("#30947c");
 
     setSlidePosition([position[0], position[1] / 2, position[2]]);
 
@@ -169,14 +170,16 @@ const HomeSlide = ({
     const k = 0.8; // y축 반지름을 x축 반지름의 60%로 설정
     const aMin = [
       waveRadius,
-      (waveRadius + WaveDisThresholdValue) % 40,
-      (waveRadius + WaveDisThresholdValue * 2) % 40,
+      (waveRadius + WaveDisThresholdValue) % WaveLengthPI,
+      (waveRadius + WaveDisThresholdValue * 2) % WaveLengthPI,
     ];
     const bMin = aMin.map((a) => a * k); // y축 반지름
     const aMax = [
       waveRadius + WaveLengthThresholdValue,
-      (waveRadius + WaveLengthThresholdValue + WaveDisThresholdValue) % 40,
-      (waveRadius + WaveLengthThresholdValue + WaveDisThresholdValue * 2) % 40,
+      (waveRadius + WaveLengthThresholdValue + WaveDisThresholdValue) %
+        WaveLengthPI,
+      (waveRadius + WaveLengthThresholdValue + WaveDisThresholdValue * 2) %
+        WaveLengthPI,
     ];
     const bMax = aMax.map((a) => a * k);
 
@@ -197,27 +200,27 @@ const HomeSlide = ({
     }
 
     if (isInAnyEllipse) {
-      setColor("#80aedf");
+      setColor("#94c5fe");
       setDistanceOpacity(1);
     } else {
-      setColor("#14cf64");
+      setColor("#30947c");
       setDistanceOpacity(0.25);
     }
 
     setRotationZ(Math.sin((i * waveRadius) / 16) / 3);
     setSlidePosition([
-      position[0] + Math.cos((i * waveRadius) / 12) / 20,
-      position[1] / 2 + Math.cos((i * waveRadius) / 12) / 40,
+      position[0] + Math.cos((i * waveRadius) / 12) / WaveLengthPI,
+      position[1] / 2 + (Math.cos((i * waveRadius) / 12) / WaveLengthPI) * 2,
       position[2],
     ]);
   };
 
   const StageEffect6 = () => {
-    setSlideScale(1);
+    setSlideScale([1, 1, 1]);
     setRotationX(0);
     setRotationY(0);
     setRotationZ(Math.PI / 2);
-    setColor("#14cf64");
+    setColor("#30947c");
 
     setSlidePosition([position[0], position[1], position[2]]);
   };
@@ -287,14 +290,38 @@ const HomeSlide = ({
         delta
       );
 
-      if (slideRef.current.scale.x > slideScale) {
-        slideRef.current.scale.x -= 0.05;
-        slideRef.current.scale.y -= 0.05;
-        slideRef.current.scale.z -= 0.05;
-      } else if (slideRef.current.scale.x < slideScale) {
-        slideRef.current.scale.x += 0.05;
-        slideRef.current.scale.y += 0.05;
-        slideRef.current.scale.z += 0.05;
+      if (pageState % 2 === 0) {
+        if (slideRef.current.scale.x > slideScale[0]) {
+          slideRef.current.scale.x -= 0.05;
+        } else if (slideRef.current.scale.x <= slideScale[0]) {
+          slideRef.current.scale.x += 0.05;
+        }
+        if (slideRef.current.scale.y > slideScale[1]) {
+          slideRef.current.scale.y -= 0.05;
+        } else if (slideRef.current.scale.y <= slideScale[1]) {
+          slideRef.current.scale.y += 0.05;
+        }
+        if (slideRef.current.scale.z > slideScale[2]) {
+          slideRef.current.scale.z -= 0.05;
+        } else if (slideRef.current.scale.x <= slideScale[2]) {
+          slideRef.current.scale.z += 0.05;
+        }
+      } else {
+        if (slideRef.current.scale.x > slideScale[0]) {
+          slideRef.current.scale.x -= 0.05;
+        } else if (slideRef.current.scale.x < slideScale[0]) {
+          slideRef.current.scale.x += 0.05;
+        }
+        if (slideRef.current.scale.y > slideScale[1]) {
+          slideRef.current.scale.y -= 0.05;
+        } else if (slideRef.current.scale.y < slideScale[1]) {
+          slideRef.current.scale.y += 0.05;
+        }
+        if (slideRef.current.scale.z > slideScale[2]) {
+          slideRef.current.scale.z -= 0.05;
+        } else if (slideRef.current.scale.x < slideScale[2]) {
+          slideRef.current.scale.z += 0.05;
+        }
       }
     }
   };
