@@ -144,7 +144,7 @@ const HomeSlide = ({
     const degree = calculateAngleThree(A, B, C);
 
     if (degree <= 20 || degree >= 340 || index === 196) {
-      setColor("#94c5fe");
+      setColor("#5ca5fa");
       setDistanceOpacity(1);
       const distance = A.distanceTo(B) / 15;
       setRotationX(distance);
@@ -200,7 +200,7 @@ const HomeSlide = ({
     }
 
     if (isInAnyEllipse) {
-      setColor("#94c5fe");
+      setColor("#5ca5fa");
       setDistanceOpacity(1);
     } else {
       setColor("#30947c");
