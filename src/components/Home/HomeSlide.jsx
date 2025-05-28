@@ -1,6 +1,10 @@
 import { useFrame } from "@react-three/fiber";
+import { set } from "lodash";
 import { useEffect, useState, useRef, useTransition, useMemo } from "react";
+import { createNoise3D } from "simplex-noise";
 import * as THREE from "three";
+
+const noise3D = createNoise3D();
 
 const HomeSlide = ({
   position,
@@ -51,7 +55,7 @@ const HomeSlide = ({
     } else if (pageState === 7) {
       StageEffect6();
     } else if (pageState === 9) {
-      // StateEffect8();
+      StageEffect8();
     }
   }, [cursorPos, position, pageState]);
 
@@ -220,13 +224,48 @@ const HomeSlide = ({
     setRotationX(0);
     setRotationY(0);
     setRotationZ(Math.PI / 2);
+    setColor("#14cf64");
+    setDistanceOpacity(0);
+
+    const noiseValueOpacity = noise3D(i + 4, j + 4, 0) + 0.5; // Scale for opacity variation
+    setDistanceOpacity((prev) => prev + noiseValueOpacity);
+
+    setSlidePosition([position[0], position[1], position[2]]);
+  };
+
+  const StageEffect8 = () => {
+    setSlideScale([1, 1, 1]);
+    setRotationX(0);
+    setRotationY(0);
+    setDistanceOpacity(1);
+    setRotationZ(Math.PI / 2);
     setColor("#30947c");
 
     setSlidePosition([position[0], position[1], position[2]]);
   };
 
   useFrame((state, delta) => {
-    StageFrame0(delta);
+    if (pageState === 7) {
+      const time = state.clock.elapsedTime;
+      const x = slideRef.current.position.x;
+      const y = slideRef.current.position.y;
+      const z = slideRef.current.position.z;
+
+      // Get a noise value based on the object's position and time
+      const noiseValueZ = noise3D(i, j, time); // Scale coordinates for desired noise frequency
+      const noiseValueY = noise3D(i + 1, j + 1, time); // Slightly offset for variation
+      const noiseValueX = noise3D(i + 2, j + 2, time); // Slightly offset for variation
+      const noiseValueScale = noise3D(i + 3, j + 3, time) * 0.25 + 1; // Scale for size variation
+
+      slideRef.current.rotation.z = noiseValueZ;
+      slideRef.current.rotation.y = noiseValueY;
+      slideRef.current.rotation.x = noiseValueX;
+      slideRef.current.scale.x = noiseValueScale;
+      slideRef.current.scale.y = noiseValueScale;
+      slideRef.current.scale.z = noiseValueScale;
+    } else {
+      StageFrame0(delta);
+    }
   });
 
   const getShortestRotation = (currentRad, targetRad) => {
@@ -249,80 +288,67 @@ const HomeSlide = ({
   const StageFrame0 = (delta) => {
     delta *= 5;
     if (slideRef.current) {
-      if (slideRef.current.rotation.x >= rotationX) {
-        slideRef.current.rotation.x = THREE.MathUtils.lerp(
-          slideRef.current.rotation.x,
-          rotationX,
-          delta
-        );
-      } else if (slideRef.current.rotation.x < rotationX) {
-        slideRef.current.rotation.x = THREE.MathUtils.lerp(
-          slideRef.current.rotation.x,
-          rotationX,
-          delta
-        );
-      }
-      if (slideRef.current.rotation.y >= rotationY) {
-        slideRef.current.rotation.y = THREE.MathUtils.lerp(
-          slideRef.current.rotation.y,
-          rotationY,
-          delta
-        );
-      } else if (slideRef.current.rotation.y < rotationY) {
-        slideRef.current.rotation.y = THREE.MathUtils.lerp(
-          slideRef.current.rotation.y,
-          rotationY,
-          delta
-        );
-      }
-
-      const currentRad = slideRef.current.rotation.z;
+      const currentRadX = slideRef.current.rotation.x;
       // 최단 회전 각도 계산 (라디안)
-      const deltaAngleRad = getShortestRotation(currentRad, rotationZ);
+      const deltaAngleRadX = getShortestRotation(currentRadX, rotationX);
 
       // 목표 라디안 값 = 현재 + 최단 경로
-      const targetRad = currentRad + deltaAngleRad;
+      const targetRadX = currentRadX + deltaAngleRadX;
 
       // 부드러운 보간
-      slideRef.current.rotation.z = THREE.MathUtils.lerp(
-        currentRad,
-        targetRad,
+      slideRef.current.rotation.x = THREE.MathUtils.lerp(
+        currentRadX,
+        targetRadX,
         delta
       );
 
-      if (pageState % 2 === 0) {
-        if (slideRef.current.scale.x > slideScale[0]) {
-          slideRef.current.scale.x -= 0.05;
-        } else if (slideRef.current.scale.x <= slideScale[0]) {
-          slideRef.current.scale.x += 0.05;
-        }
-        if (slideRef.current.scale.y > slideScale[1]) {
-          slideRef.current.scale.y -= 0.05;
-        } else if (slideRef.current.scale.y <= slideScale[1]) {
-          slideRef.current.scale.y += 0.05;
-        }
-        if (slideRef.current.scale.z > slideScale[2]) {
-          slideRef.current.scale.z -= 0.05;
-        } else if (slideRef.current.scale.x <= slideScale[2]) {
-          slideRef.current.scale.z += 0.05;
-        }
-      } else {
-        if (slideRef.current.scale.x > slideScale[0]) {
-          slideRef.current.scale.x -= 0.05;
-        } else if (slideRef.current.scale.x < slideScale[0]) {
-          slideRef.current.scale.x += 0.05;
-        }
-        if (slideRef.current.scale.y > slideScale[1]) {
-          slideRef.current.scale.y -= 0.05;
-        } else if (slideRef.current.scale.y < slideScale[1]) {
-          slideRef.current.scale.y += 0.05;
-        }
-        if (slideRef.current.scale.z > slideScale[2]) {
-          slideRef.current.scale.z -= 0.05;
-        } else if (slideRef.current.scale.x < slideScale[2]) {
-          slideRef.current.scale.z += 0.05;
-        }
-      }
+      const currentRadY = slideRef.current.rotation.y;
+      // 최단 회전 각도 계산 (라디안)
+      const deltaAngleRadY = getShortestRotation(currentRadY, rotationY);
+
+      // 목표 라디안 값 = 현재 + 최단 경로
+      const targetRadY = currentRadY + deltaAngleRadY;
+
+      // 부드러운 보간
+      slideRef.current.rotation.y = THREE.MathUtils.lerp(
+        currentRadY,
+        targetRadY,
+        delta
+      );
+
+      const currentRadZ = slideRef.current.rotation.z;
+      // 최단 회전 각도 계산 (라디안)
+      const deltaAngleRadZ = getShortestRotation(currentRadZ, rotationZ);
+
+      // 목표 라디안 값 = 현재 + 최단 경로
+      const targetRadZ = currentRadZ + deltaAngleRadZ;
+
+      // if (index === 127) {
+      //   console.log(targetRadZ);
+      // }
+
+      // 부드러운 보간
+      slideRef.current.rotation.z = THREE.MathUtils.lerp(
+        currentRadZ,
+        targetRadZ,
+        delta
+      );
+
+      slideRef.current.scale.x = THREE.MathUtils.lerp(
+        slideRef.current.scale.x,
+        slideScale[0],
+        delta
+      );
+      slideRef.current.scale.y = THREE.MathUtils.lerp(
+        slideRef.current.scale.y,
+        slideScale[1],
+        delta
+      );
+      slideRef.current.scale.z = THREE.MathUtils.lerp(
+        slideRef.current.scale.z,
+        slideScale[2],
+        delta
+      );
     }
   };
 

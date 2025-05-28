@@ -4,6 +4,7 @@ import { useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import { useScroll } from "@react-three/drei";
 import useTestStore from "../../store/useTestStore";
+import { useNavigate } from "react-router";
 
 const HomeExperience = ({ SlidePos }) => {
   const planeRef = useRef();
@@ -19,6 +20,8 @@ const HomeExperience = ({ SlidePos }) => {
   const [waveRadius, setWaveRadius] = useState(0);
 
   const { testData, setTestData } = useTestStore();
+
+  const navigator = useNavigate();
 
   const sizes = {
     width: window.innerWidth,
@@ -36,6 +39,12 @@ const HomeExperience = ({ SlidePos }) => {
       );
     });
   }, []);
+
+  useEffect(() => {
+    if (pageState === 9) {
+      navigator("/building");
+    }
+  }, [pageState]);
 
   useEffect(() => {
     setPageState(currentPage * 2);

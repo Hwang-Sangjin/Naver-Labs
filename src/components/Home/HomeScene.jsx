@@ -10,9 +10,11 @@ import HomeOrthoCamera from "./HomeOrthoCamera";
 import { useEffect, useRef, useState } from "react";
 import HomeExperience from "./HomeExperience";
 import useTestStore from "../../store/useTestStore";
+import { createNoise3D } from "simplex-noise";
 
 const HomeScene = () => {
   const { testData, setTestData } = useTestStore();
+  const noise3D = createNoise3D();
 
   const SlidePos = [];
   for (let i = 0; i < 17; i++) {
