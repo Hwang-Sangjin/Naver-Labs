@@ -14,7 +14,7 @@ import {
 import { Canvas } from "@react-three/fiber";
 import NaverBuilding from "../model/NaverBuilding";
 import * as THREE from "three";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState, useTransition } from "react";
 import OrthoCamera from "../OrthoCamera";
 import {
   DepthOfField,
@@ -24,9 +24,22 @@ import {
 } from "@react-three/postprocessing";
 
 const BuildingScene = ({ sunTime }) => {
+  const [envMap, setEnvMap] = useState("warehouse");
+  const [inTransition, startTransition] = useTransition();
+
   useEffect(() => {
-    console.log(sunTime);
+    if (sunTime === 0) {
+      onChangeEnvMap("warehouse");
+    } else if (sunTime === 1) {
+      onChangeEnvMap("dawn");
+    } else if (sunTime === 2) {
+      onChangeEnvMap("night");
+    }
   }, [sunTime]);
+
+  const onChangeEnvMap = (value) => {
+    startTransition(() => setEnvMap(value));
+  };
   return (
     <>
       <Canvas shadows camera={{ position: [4, 2.5, 8], fov: 35 }}>
@@ -85,16 +98,16 @@ const BuildingScene = ({ sunTime }) => {
           <ToneMapping />
         </EffectComposer>
         {/** options: ['sunset', 'dawn', 'night', 'warehouse', 'forest', 'apartment', 'studio', 'city', 'park', 'lobby'], Lightformer- color 변경 */}
-        {/* <Environment preset="sunset" resolution={32}>
+        <Environment preset={envMap} resolution={32}>
           <Lightformer position={[10, 10, 10]} scale={10} intensity={4} />
           <Lightformer
             position={[10, 0, -10]}
             scale={10}
-            color="red"
+            color={sunTime === 0 ? "yellow" : sunTime === 1 ? "red" : "black"}
             intensity={6}
           />
           <Lightformer position={[-10, -10, -10]} scale={10} intensity={4} />
-        </Environment> */}
+        </Environment>
         <ambientLight intensity={0.5} />
       </Canvas>
       <Loader />
