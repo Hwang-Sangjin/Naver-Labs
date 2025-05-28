@@ -14,7 +14,7 @@ import {
 import { Canvas } from "@react-three/fiber";
 import NaverBuilding from "../model/NaverBuilding";
 import * as THREE from "three";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import OrthoCamera from "../OrthoCamera";
 import {
   DepthOfField,
@@ -23,7 +23,10 @@ import {
   ToneMapping,
 } from "@react-three/postprocessing";
 
-const BuildingScene = () => {
+const BuildingScene = ({ sunTime }) => {
+  useEffect(() => {
+    console.log(sunTime);
+  }, [sunTime]);
   return (
     <>
       <Canvas shadows camera={{ position: [4, 2.5, 8], fov: 35 }}>
@@ -62,7 +65,13 @@ const BuildingScene = () => {
               amount={8}
               radius={4}
               ambient={0.5}
-              position={[5, 5, -10]}
+              position={
+                sunTime === 0
+                  ? [-10, 5, -5]
+                  : sunTime === 1
+                    ? [5, 5, -10]
+                    : [0, 10, 0]
+              }
               bias={0.001}
             />
           </AccumulativeShadows>
@@ -76,7 +85,7 @@ const BuildingScene = () => {
           <ToneMapping />
         </EffectComposer>
         {/** options: ['sunset', 'dawn', 'night', 'warehouse', 'forest', 'apartment', 'studio', 'city', 'park', 'lobby'], Lightformer- color 변경 */}
-        <Environment preset="sunset" resolution={32}>
+        {/* <Environment preset="sunset" resolution={32}>
           <Lightformer position={[10, 10, 10]} scale={10} intensity={4} />
           <Lightformer
             position={[10, 0, -10]}
@@ -85,7 +94,7 @@ const BuildingScene = () => {
             intensity={6}
           />
           <Lightformer position={[-10, -10, -10]} scale={10} intensity={4} />
-        </Environment>
+        </Environment> */}
         <ambientLight intensity={0.5} />
       </Canvas>
       <Loader />
