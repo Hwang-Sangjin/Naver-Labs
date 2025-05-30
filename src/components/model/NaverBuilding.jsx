@@ -11,11 +11,11 @@ export default function NaverBuilding(props) {
     const offset = 1 - scroll.offset;
 
     state.camera.position.set(
-      Math.sin(offset) * 100,
-      Math.atan(offset * Math.PI * 2) * 30,
-      Math.cos((offset * Math.PI) / 3) * 200
+      Math.sin(offset) * 100 + 100,
+      Math.atan(offset * Math.PI * 2) + 100,
+      Math.cos((offset * Math.PI) / 3) * 200 + 100
     );
-    state.camera.zoom = 5 + (1 - offset) * 3; // Zoom ranges from 5 to 15 based on scroll
+    state.camera.zoom = 10 + (1 - offset) * 5; // Zoom ranges from 5 to 15 based on scroll
     state.camera.updateProjectionMatrix();
 
     state.camera.lookAt(0, 0, 0);
