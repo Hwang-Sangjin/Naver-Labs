@@ -27,12 +27,14 @@ import BuildingPlane from "./BuildingPlane";
 const BuildingScene = ({ sunTime }) => {
   const [envMap, setEnvMap] = useState("warehouse");
   const [inTransition, startTransition] = useTransition();
-
+  {
+    /** options: ['sunset', 'dawn', 'night', 'warehouse', 'forest', 'apartment', 'studio', 'city', 'park', 'lobby'], Lightformer- color 변경 */
+  }
   useEffect(() => {
     if (sunTime === 0) {
       onChangeEnvMap("warehouse");
     } else if (sunTime === 1) {
-      onChangeEnvMap("sunset");
+      onChangeEnvMap("city");
     } else if (sunTime === 2) {
       onChangeEnvMap("night");
     }
@@ -104,7 +106,7 @@ const BuildingScene = ({ sunTime }) => {
           <Lightformer
             position={[10, 0, -10]}
             scale={10}
-            color={sunTime === 0 ? "yellow" : sunTime === 1 ? "red" : "black"}
+            color={sunTime === 0 ? "white" : sunTime === 1 ? "red" : "black"}
             intensity={6}
           />
           <Lightformer position={[-10, -10, -10]} scale={10} intensity={4} />

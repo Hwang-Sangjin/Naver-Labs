@@ -3,7 +3,8 @@ import {
   OrbitControls,
   useHelper,
 } from "@react-three/drei";
-import { useRef } from "react";
+import { useThree } from "@react-three/fiber";
+import { useEffect, useRef } from "react";
 import * as THREE from "three";
 
 const OrthoCamera = () => {
@@ -11,7 +12,7 @@ const OrthoCamera = () => {
     <OrthographicCamera
       makeDefault
       zoom={1} // Decrease zoom to show more of the scene
-      near={0.1}
+      near={0}
       far={400}
       left={-200} // Expand frustum to cover plane width
       right={200}
