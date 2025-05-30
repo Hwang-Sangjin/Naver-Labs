@@ -22,6 +22,7 @@ import {
   N8AO,
   ToneMapping,
 } from "@react-three/postprocessing";
+import BuildingPlane from "./BuildingPlane";
 
 const BuildingScene = ({ sunTime }) => {
   const [envMap, setEnvMap] = useState("warehouse");
@@ -31,7 +32,7 @@ const BuildingScene = ({ sunTime }) => {
     if (sunTime === 0) {
       onChangeEnvMap("warehouse");
     } else if (sunTime === 1) {
-      onChangeEnvMap("dawn");
+      onChangeEnvMap("sunset");
     } else if (sunTime === 2) {
       onChangeEnvMap("night");
     }
@@ -42,9 +43,9 @@ const BuildingScene = ({ sunTime }) => {
   };
   return (
     <>
-      <Canvas shadows camera={{ position: [4, 2.5, 8], fov: 35 }}>
+      <Canvas shadows>
         <color attach="background" args={["#c7efce"]} />
-        <group position={[0, -0.5, 0]}>
+        <group position={[0, 0, 0]}>
           <ScrollControls
             style={{
               width: "100%",
@@ -60,10 +61,11 @@ const BuildingScene = ({ sunTime }) => {
           >
             <Center top>
               <NaverBuilding scale={0.2} />
+              <BuildingPlane />
             </Center>
           </ScrollControls>
 
-          <AccumulativeShadows
+          {/* <AccumulativeShadows
             temporal
             frames={100}
             color="green"
@@ -87,10 +89,9 @@ const BuildingScene = ({ sunTime }) => {
               }
               bias={0.001}
             />
-          </AccumulativeShadows>
+          </AccumulativeShadows> */}
         </group>
 
-        <Environment preset="city" />
         <OrthoCamera />
         <EffectComposer>
           <N8AO aoRadius={0.5} intensity={1} />
@@ -98,7 +99,7 @@ const BuildingScene = ({ sunTime }) => {
           <ToneMapping />
         </EffectComposer>
         {/** options: ['sunset', 'dawn', 'night', 'warehouse', 'forest', 'apartment', 'studio', 'city', 'park', 'lobby'], Lightformer- color 변경 */}
-        <Environment preset={envMap} resolution={32}>
+        <Environment preset={envMap} resolution={32} blur={0.65}>
           <Lightformer position={[10, 10, 10]} scale={10} intensity={4} />
           <Lightformer
             position={[10, 0, -10]}
@@ -108,6 +109,7 @@ const BuildingScene = ({ sunTime }) => {
           />
           <Lightformer position={[-10, -10, -10]} scale={10} intensity={4} />
         </Environment>
+
         <ambientLight intensity={0.5} />
       </Canvas>
       <Loader />

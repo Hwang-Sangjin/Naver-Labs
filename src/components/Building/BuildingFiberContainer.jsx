@@ -1,9 +1,8 @@
 import BuildingScene from "./BuildingScene";
 import "./Building.css";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 const BuildingFiberContainer = () => {
-  const sunTimeCnt = 3;
   const [sunTime, setSunTime] = useState(0);
 
   const changeSunTime = () => {
@@ -11,17 +10,15 @@ const BuildingFiberContainer = () => {
   };
 
   return (
-    <>
+    <div className="relative w-full h-full">
       <button
-        onClick={() => {
-          changeSunTime();
-        }}
-        className="absolute z-10"
+        onClick={changeSunTime}
+        className="absolute z-10 top-2 right-2 bg-green-300 text-white px-4 py-2 rounded"
       >
-        Button
+        시간 변경
       </button>
       <BuildingScene sunTime={sunTime} />
-    </>
+    </div>
   );
 };
 

@@ -10,16 +10,14 @@ const OrthoCamera = () => {
   return (
     <OrthographicCamera
       makeDefault
-      zoom={3}
-      near={1}
+      zoom={1} // Decrease zoom to show more of the scene
+      near={0.1}
       far={400}
-      position={[10, 5, 10]}
-      left={-50}
-      right={50}
-      top={30}
-      bottom={-30}
+      left={-200} // Expand frustum to cover plane width
+      right={200}
+      top={120} // Expand frustum to cover plane height
+      bottom={-120}
     />
   );
 };
-
 export default OrthoCamera;

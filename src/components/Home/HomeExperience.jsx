@@ -41,7 +41,7 @@ const HomeExperience = ({ SlidePos }) => {
   }, []);
 
   useEffect(() => {
-    if (pageState === 9) {
+    if (pageState >= 9) {
       navigator("/building");
     }
   }, [pageState]);
