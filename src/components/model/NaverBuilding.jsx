@@ -23,14 +23,22 @@ export default function NaverBuilding(props) {
 
   return (
     <Center>
-      <group castShadow receiveShadow {...props} dispose={null}>
+      <group {...props} dispose={null}>
         <mesh
           castShadow
           receiveShadow
           geometry={nodes.Combined.geometry}
-          material={nodes.Combined.material}
-          position={[-2, 3, -7]}
-          scale={0.763}
+          material={materials.Material}
+          position={[-2, 4.8, -7]}
+          scale={1.25}
+        />
+        <mesh
+          castShadow
+          receiveShadow
+          geometry={nodes.Plane.geometry}
+          material={materials["Material.001"]}
+          position={[-5, 1, -16]}
+          scale={45}
         />
       </group>
     </Center>
