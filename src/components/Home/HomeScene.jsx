@@ -45,7 +45,6 @@ const HomeScene = () => {
         </ScrollControls>
         <HomeOrthoCamera />
       </Canvas>
-      <Loader />
     </>
   );
 };

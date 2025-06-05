@@ -5,7 +5,6 @@ import * as THREE from "three";
 import { useScroll } from "@react-three/drei";
 import useTestStore from "../../store/useTestStore";
 import { useNavigate } from "react-router";
-
 const HomeExperience = ({ SlidePos }) => {
   const planeRef = useRef();
   const [screenCursor, setScreenCursor] = useState(
@@ -18,9 +17,8 @@ const HomeExperience = ({ SlidePos }) => {
   const [currentPage, setCurrentPage] = useState(0);
   const [pageState, setPageState] = useState(0);
   const [waveRadius, setWaveRadius] = useState(0);
-
+  const [isTimerActive, setIsTimerActive] = useState(false); // 타이머 상태 플래그
   const { testData, setTestData } = useTestStore();
-
   const navigator = useNavigate();
 
   const sizes = {
@@ -49,12 +47,13 @@ const HomeExperience = ({ SlidePos }) => {
   useEffect(() => {
     setPageState(currentPage * 2);
     setCursorPos([0, 0, 0]);
+    setIsTimerActive(true); // 타이머 시작
 
     const timer = setTimeout(() => {
       setPageState(currentPage * 2 + 1);
+      setIsTimerActive(false); // 타이머 종료
     }, 2000);
 
-    // Cleanup to clear the timeout if currentPage changes or component unmounts
     return () => clearTimeout(timer);
   }, [currentPage]);
 
@@ -65,20 +64,18 @@ const HomeExperience = ({ SlidePos }) => {
     if (intersection.length > 0) {
       const point = intersection[0].point;
       setCursorPos([point.x, point.y, point.z]);
-
       setTestData(point);
     }
 
     const tempPage = Math.floor(data.offset * data.pages);
-
-    if (tempPage !== currentPage) {
+    // 타이머가 활성화되어 있지 않을 때만 currentPage 업데이트
+    if (tempPage !== currentPage && !isTimerActive) {
       setCurrentPage(tempPage);
     }
   });
 
   useFrame((state, delta) => {
     if (pageState !== 5) return;
-
     setWaveRadius((prev) => (prev + delta * 5) % 40);
   });
 

@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import HomeFiberContainer from "../components/Home/HomeFiberContainer";
+import Loading from "../components/Loading/Loading";
 
 const Home = () => {
   useEffect(() => {
@@ -12,6 +13,7 @@ const Home = () => {
 
   return (
     <>
+      <Loading />
       <HomeFiberContainer />
     </>
   );

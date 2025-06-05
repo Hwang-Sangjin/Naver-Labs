@@ -1,5 +1,14 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: "NaverFont";
+  src: url("/public/font/NanumHumanBold.otf") format("otf");
+
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 html {
   margin: 0;
   padding: 0;
@@ -7,6 +16,7 @@ html {
 body {
   margin: 0;
   padding: 0;
+  font-family: "NaverFont", sans-serif;
 }
 
 #root {

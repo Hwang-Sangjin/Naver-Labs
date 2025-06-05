@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router";
 import Office from "./pages/Office.jsx";
 
 import Building from "./pages/Building.jsx";
+import Loading from "./components/Loading/Loading.jsx";
 
 createRoot(document.getElementById("root")).render(
   <BrowserRouter>

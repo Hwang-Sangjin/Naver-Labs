@@ -66,7 +66,18 @@ const BuildingScene = ({ sunTime }) => {
               <BuildingPlane />
             </Center>
           </ScrollControls>
-
+          <directionalLight
+            castShadow
+            position={
+              sunTime === 0
+                ? [50, 50, -50]
+                : sunTime === 1
+                  ? [-50, 50, 50]
+                  : [0, -10, 0]
+            }
+            intensity={3}
+            shadow-mapSize={[1024, 1024]}
+          />
           {/* <AccumulativeShadows
             temporal
             frames={100}
@@ -112,7 +123,7 @@ const BuildingScene = ({ sunTime }) => {
           <Lightformer position={[-10, -10, -10]} scale={10} intensity={4} />
         </Environment>
 
-        <ambientLight intensity={0.5} />
+        <ambientLight intensity={0.1} />
       </Canvas>
       <Loader />
     </>
