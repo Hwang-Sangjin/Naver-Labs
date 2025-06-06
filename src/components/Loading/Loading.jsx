@@ -25,7 +25,7 @@ const Loading = () => {
   return (
     <>
       {start ? (
-        <div className="absolute text-center w-full h-full bg-[#1e7404] z-50">
+        <div className="absolute text-center w-full h-full bg-[#b6e4a8] z-50">
           <button
             onClick={() => {
               setStart(false);
