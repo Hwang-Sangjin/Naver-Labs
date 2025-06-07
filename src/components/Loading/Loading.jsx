@@ -30,15 +30,6 @@ const Loading = () => {
             onClick={() => {
               setStart(false);
             }}
-            className="z-100 relative top-1/3 m-auto pointer  text-6xl text-orange-300"
-            disabled={progress < 100}
-          >
-            The Book!
-          </button>
-          <button
-            onClick={() => {
-              setStart(false);
-            }}
             visible={progress >= 100 ? "true" : "false"}
             className="z-100 absolute top-2/3 left-1/2 pointer NaverFont text-3xl text-orange-300"
           >
