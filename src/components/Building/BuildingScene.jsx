@@ -125,7 +125,6 @@ const BuildingScene = ({ sunTime }) => {
 
         <ambientLight intensity={0.1} />
       </Canvas>
-      <Loader />
     </>
   );
 };

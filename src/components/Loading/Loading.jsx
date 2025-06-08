@@ -25,15 +25,15 @@ const Loading = () => {
   return (
     <>
       {start ? (
-        <div className="absolute text-center w-full h-full bg-[#b6e4a8] z-50">
+        <div className="absolute text-center w-full h-full bg-[#133238] z-50">
           <button
             onClick={() => {
               setStart(false);
             }}
             visible={progress >= 100 ? "true" : "false"}
-            className="z-100 absolute top-2/3 left-1/2 pointer NaverFont text-3xl text-orange-300"
+            className="z-100 absolute top-1/3  pointer font-[NaverFont] text-5xl text-[#14cf64]"
           >
-            책님!
+            네이버
           </button>
           <div ref={loadingRef} className="loading-bar"></div>
         </div>
