@@ -18,7 +18,7 @@ const HomeExperience = ({ SlidePos }) => {
   const [pageState, setPageState] = useState(0);
   const [waveRadius, setWaveRadius] = useState(0);
   const [isTimerActive, setIsTimerActive] = useState(false); // 타이머 상태 플래그
-
+  const { loadingStateStore, setLoadingStateStore } = useLoadingStateStore();
   const navigator = useNavigate();
 
   const sizes = {
@@ -50,12 +50,14 @@ const HomeExperience = ({ SlidePos }) => {
     setIsTimerActive(true); // 타이머 시작
 
     const timer = setTimeout(() => {
-      setPageState(currentPage * 2 + 1);
-      setIsTimerActive(false); // 타이머 종료
+      if (loadingStateStore) {
+        setPageState(currentPage * 2 + 1);
+        setIsTimerActive(false); // 타이머 종료
+      }
     }, 2000);
 
     return () => clearTimeout(timer);
-  }, [currentPage]);
+  }, [currentPage, loadingStateStore]);
 
   useFrame((state) => {
     raycaster.current.setFromCamera(screenCursor, camera);

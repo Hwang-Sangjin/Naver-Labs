@@ -1,7 +1,7 @@
 import { create } from "zustand";
 
 const useLoadingStateStore = create((set) => ({
-  loadingStateStore: true,
+  loadingStateStore: false,
 
   setLoadingStateStore: (loadingStateStore) => set({ loadingStateStore }),
 }));

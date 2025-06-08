@@ -25,11 +25,11 @@ const Loading = () => {
 
   return (
     <>
-      {loadingStateStore ? (
+      {!loadingStateStore ? (
         <div className="absolute text-center w-full h-full bg-[#133238] z-50">
           <button
             onClick={() => {
-              setLoadingStateStore(false);
+              setLoadingStateStore(true);
             }}
             visible={progress >= 100 ? "true" : "false"}
             className="z-100 absolute top-1/3  pointer font-[NaverFont] text-5xl text-[#14cf64]"
