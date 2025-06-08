@@ -3,13 +3,14 @@ import { useProgress } from "@react-three/drei";
 import "./Loading.css";
 import { useEffect } from "react";
 import { useRef } from "react";
-import { gsap } from "gsap";
 import { useState } from "react";
+import useLoadingStateStore from "../../store/useLoadingStateStore";
 
 const Loading = () => {
   const loadingRef = useRef();
   const { active, progress } = useProgress();
   const [start, setStart] = useState(true);
+  const { loadingStateStore, setLoadingStateStore } = useLoadingStateStore();
 
   useEffect(() => {
     if (progress === 100) {
@@ -24,11 +25,11 @@ const Loading = () => {
 
   return (
     <>
-      {start ? (
+      {loadingStateStore ? (
         <div className="absolute text-center w-full h-full bg-[#133238] z-50">
           <button
             onClick={() => {
-              setStart(false);
+              setLoadingStateStore(false);
             }}
             visible={progress >= 100 ? "true" : "false"}
             className="z-100 absolute top-1/3  pointer font-[NaverFont] text-5xl text-[#14cf64]"

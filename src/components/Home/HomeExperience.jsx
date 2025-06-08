@@ -3,8 +3,8 @@ import HomeSlide from "./HomeSlide";
 import { useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import { useScroll } from "@react-three/drei";
-import useTestStore from "../../store/useTestStore";
 import { useNavigate } from "react-router";
+import useLoadingStateStore from "../../store/useLoadingStateStore";
 const HomeExperience = ({ SlidePos }) => {
   const planeRef = useRef();
   const [screenCursor, setScreenCursor] = useState(
@@ -18,7 +18,7 @@ const HomeExperience = ({ SlidePos }) => {
   const [pageState, setPageState] = useState(0);
   const [waveRadius, setWaveRadius] = useState(0);
   const [isTimerActive, setIsTimerActive] = useState(false); // 타이머 상태 플래그
-  const { testData, setTestData } = useTestStore();
+
   const navigator = useNavigate();
 
   const sizes = {
@@ -64,7 +64,6 @@ const HomeExperience = ({ SlidePos }) => {
     if (intersection.length > 0) {
       const point = intersection[0].point;
       setCursorPos([point.x, point.y, point.z]);
-      setTestData(point);
     }
 
     const tempPage = Math.floor(data.offset * data.pages);
