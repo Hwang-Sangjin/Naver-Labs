@@ -23,6 +23,7 @@ import {
   ToneMapping,
 } from "@react-three/postprocessing";
 import BuildingPlane from "./BuildingPlane";
+import { Character } from "./Character/Character";
 
 const BuildingScene = ({ sunTime }) => {
   const [envMap, setEnvMap] = useState("warehouse");
@@ -122,6 +123,7 @@ const BuildingScene = ({ sunTime }) => {
           />
           <Lightformer position={[-10, -10, -10]} scale={10} intensity={4} />
         </Environment>
+        <Character />
 
         <ambientLight intensity={0.1} />
       </Canvas>
