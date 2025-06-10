@@ -1,44 +1,59 @@
 import * as React from "react";
-import { useProgress } from "@react-three/drei";
+import { useEffect, useRef } from "react";
 import "./Loading.css";
-import { useEffect } from "react";
-import { useRef } from "react";
-import { useState } from "react";
 import useLoadingStateStore from "../../store/useLoadingStateStore";
 
 const Loading = () => {
-  const loadingRef = useRef();
-  const { active, progress } = useProgress();
-  const [start, setStart] = useState(true);
+  const introRef = useRef(null);
+  const subtitleRef = useRef(null);
   const { loadingStateStore, setLoadingStateStore } = useLoadingStateStore();
 
   useEffect(() => {
-    if (progress === 100) {
-      if (loadingRef.current) {
-        loadingRef.current.classList.add("ended");
-        loadingRef.current.style.transform = "";
-      }
-    } else if (loadingRef.current) {
-      loadingRef.current.style.transform = `scaleX(${progress / 100})`;
+    const element = introRef.current;
+    const subtitle = subtitleRef.current;
+    if (element && subtitle) {
+      requestAnimationFrame(() => {
+        element.classList.add("is-visible");
+      });
+
+      const showSubtitle = setTimeout(() => {
+        subtitle.classList.add("show");
+      }, 3000);
+
+      const hideAll = setTimeout(() => {
+        element.classList.add("is-hidden");
+      }, 7000);
+
+      const hideComponent = setTimeout(() => {
+        setLoadingStateStore(true);
+      }, 9000);
+
+      return () => {
+        clearTimeout(showSubtitle);
+        clearTimeout(hideAll);
+        clearTimeout(hideComponent);
+      };
     }
-  }, [progress]);
+  }, []);
 
   return (
     <>
-      {!loadingStateStore ? (
-        <div className="absolute text-center w-full h-full bg-[#133238] z-50">
-          <button
-            onClick={() => {
-              setLoadingStateStore(true);
-            }}
-            visible={progress >= 100 ? "true" : "false"}
-            className="z-100 absolute top-1/3  pointer font-[NaverFont] text-5xl text-[#14cf64]"
+      {loadingStateStore ? null : (
+        <div
+          className="intro absolute flex flex-col items-center justify-center w-full h-full bg-[#133238] z-50"
+          ref={introRef}
+        >
+          <h1 className="title font-[NaverFont] text-7xl font-black text-[#011008] z-[100]">
+            Naver Labs
+          </h1>
+          <h2
+            className="sub-title-1 font-[NaverFont] text-5xl font-black text-[#73c697] z-[100] mt-8"
+            ref={subtitleRef}
           >
-            네이버
-          </button>
-          <div ref={loadingRef} className="loading-bar"></div>
+            We the Navigators
+          </h2>
         </div>
-      ) : null}
+      )}
     </>
   );
 };
