@@ -18,15 +18,15 @@ const Loading = () => {
 
       const showSubtitle = setTimeout(() => {
         subtitle.classList.add("show");
-      }, 3000);
+      }, 2000);
 
       const hideAll = setTimeout(() => {
         element.classList.add("is-hidden");
-      }, 7000);
+      }, 6000);
 
       const hideComponent = setTimeout(() => {
         setLoadingStateStore(true);
-      }, 9000);
+      }, 10000);
 
       return () => {
         clearTimeout(showSubtitle);
@@ -52,6 +52,14 @@ const Loading = () => {
           >
             We the Navigators
           </h2>
+          <div
+            className="absolute bottom-10 font-[NaverFont] cursor-pointer text-[#73c69775] text-2xl"
+            onClick={() => {
+              window.open("https://www.instagram.com/eudaimoniajin/", "_blank");
+            }}
+          >
+            developer jin
+          </div>
         </div>
       )}
     </>

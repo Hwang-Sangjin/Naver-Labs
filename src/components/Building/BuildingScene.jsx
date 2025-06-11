@@ -123,7 +123,7 @@ const BuildingScene = ({ sunTime }) => {
           />
           <Lightformer position={[-10, -10, -10]} scale={10} intensity={4} />
         </Environment>
-        <Character />
+        <Character scale={[0.35, 0.35, 0.35]} position={[5, 0.52, 12]} />
 
         <ambientLight intensity={0.1} />
       </Canvas>

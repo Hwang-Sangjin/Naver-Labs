@@ -4,12 +4,7 @@ import { useGLTF } from "@react-three/drei";
 export function Character(props) {
   const { nodes, materials } = useGLTF("/model/character.glb");
   return (
-    <group
-      scale={[0.5, 0.5, 0.5]}
-      position={[10, 0, 0]}
-      {...props}
-      dispose={null}
-    >
+    <group {...props} dispose={null}>
       <mesh
         castShadow
         receiveShadow

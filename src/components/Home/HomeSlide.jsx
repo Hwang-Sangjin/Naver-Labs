@@ -14,6 +14,8 @@ const HomeSlide = ({
   waveRadius,
   i,
   j,
+  centerSlide,
+  centerUpSlide,
 }) => {
   const [distanceOpacity, setDistanceOpacity] = useState(0.25);
   const [rotationZ, setRotationZ] = useState(0);
@@ -71,12 +73,12 @@ const HomeSlide = ({
     // Z-axis rotation: Align card to face the cursor
     const exactRotationZ = Math.atan2(direction.y, direction.x);
 
-    setRotationZ(0);
-
     setDistanceOpacity(0.5);
-    setSlideScale([1.35, 1, 1.75]);
-    setRotationX(Math.PI / 2);
+    setSlideScale([0.75, 1, 1]);
+    setRotationX(0);
     setRotationY(0);
+    setRotationZ(Math.PI / 2);
+    setSlidePosition([position[0], position[1], position[2]]);
     //setRotationZ(0);
     setColor("#30947c");
   };
@@ -220,52 +222,28 @@ const HomeSlide = ({
   };
 
   const StageEffect6 = () => {
-    setSlideScale([1, 1, 1]);
     setRotationX(0);
     setRotationY(0);
     setRotationZ(Math.PI / 2);
     setColor("#14cf64");
-    setDistanceOpacity(0);
 
-    const noiseValueOpacity = noise3D(i + 4, j + 4, 0) + 0.5; // Scale for opacity variation
-    setDistanceOpacity((prev) => prev + noiseValueOpacity);
+    if (centerSlide.includes(index)) {
+      setDistanceOpacity(0.5);
+      setSlideScale([3, 3.5, 1]);
 
-    setSlidePosition([position[0], position[1], position[2]]);
-  };
+      setSlidePosition([position[0] / 2, position[1], position[2]]);
+    } else if (centerUpSlide.includes(index)) {
+      setDistanceOpacity(1);
+      setSlideScale([3, 3.5, 1]);
 
-  const StageEffect8 = () => {
-    setSlideScale([1, 1, 1]);
-    setRotationX(0);
-    setRotationY(0);
-    setDistanceOpacity(1);
-    setRotationZ(Math.PI / 2);
-    setColor("#30947c");
-
-    setSlidePosition([position[0], position[1], position[2]]);
+      setSlidePosition([position[0] / 2 + 0.5, position[1] - 1.7, position[2]]);
+    } else {
+      setSlideScale([0, 0, 0]);
+    }
   };
 
   useFrame((state, delta) => {
-    if (pageState === 7) {
-      const time = state.clock.elapsedTime;
-      const x = slideRef.current.position.x;
-      const y = slideRef.current.position.y;
-      const z = slideRef.current.position.z;
-
-      // Get a noise value based on the object's position and time
-      const noiseValueZ = noise3D(i, j, time); // Scale coordinates for desired noise frequency
-      const noiseValueY = noise3D(i + 1, j + 1, time); // Slightly offset for variation
-      const noiseValueX = noise3D(i + 2, j + 2, time); // Slightly offset for variation
-      const noiseValueScale = noise3D(i + 3, j + 3, time) * 0.25 + 1; // Scale for size variation
-
-      slideRef.current.rotation.z = noiseValueZ;
-      slideRef.current.rotation.y = noiseValueY;
-      slideRef.current.rotation.x = noiseValueX;
-      slideRef.current.scale.x = noiseValueScale;
-      slideRef.current.scale.y = noiseValueScale;
-      slideRef.current.scale.z = noiseValueScale;
-    } else {
-      StageFrame0(delta);
-    }
+    StageFrame0(delta);
   });
 
   const getShortestRotation = (currentRad, targetRad) => {
