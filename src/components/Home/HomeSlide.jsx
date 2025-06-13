@@ -229,13 +229,13 @@ const HomeSlide = ({
 
     if (centerSlide.includes(index)) {
       setDistanceOpacity(0.5);
-      setSlideScale([3, 3.5, 1]);
-
+      setSlideScale([3, 3.3, 0.495]); // 1.5 ,0.15 ,1 -> 4.5 16.83 1  450 1683  150  561  50 147 400 1176  500 1470
+      //setRotationY(Math.PI);
       setSlidePosition([position[0] / 2, position[1], position[2]]);
     } else if (centerUpSlide.includes(index)) {
-      setDistanceOpacity(1);
-      setSlideScale([3, 3.5, 1]);
-
+      setDistanceOpacity(0.5);
+      setSlideScale([3, 3.3, 0.495]);
+      //setRotationY(Math.PI);
       setSlidePosition([position[0] / 2 + 0.5, position[1] - 1.7, position[2]]);
     } else {
       setSlideScale([0, 0, 0]);
@@ -304,7 +304,6 @@ const HomeSlide = ({
       // if (index === 127) {
       //   console.log(targetRadZ);
       // }
-
       // 부드러운 보간
       slideRef.current.rotation.z = THREE.MathUtils.lerp(
         currentRadZ,

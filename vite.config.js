@@ -7,6 +7,6 @@ import glsl from "vite-plugin-glsl";
 export default defineConfig({
   plugins: [react(), tailwindcss(), glsl()],
   optimizeDeps: {
-    exclude: ["/favicon.ico"],
+    exclude: ["/favicon.ico", "three"],
   },
 });

@@ -1,10 +1,12 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import HomeSlide from "./HomeSlide";
-import { useFrame, useThree } from "@react-three/fiber";
+import { useFrame, useThree, useLoader } from "@react-three/fiber";
 import * as THREE from "three";
-import { useScroll } from "@react-three/drei";
+import { TextureLoader } from "three";
+import { OrbitControls, useScroll } from "@react-three/drei";
 import { useNavigate } from "react-router";
 import useLoadingStateStore from "../../store/useLoadingStateStore";
+import ImageSplitBox from "../Office/ImageSplitBox";
 const HomeExperience = ({ SlidePos }) => {
   const planeRef = useRef();
   const [screenCursor, setScreenCursor] = useState(
@@ -28,6 +30,7 @@ const HomeExperience = ({ SlidePos }) => {
     13, 36, 59, 82, 105, 128, 151, 174, 197, 220, 243, 266, 289, 312, 335, 358,
     381,
   ];
+  //34개
 
   const targetZoom = useRef(pageState === 7 ? 4 : 2.5);
   const currentZoom = useRef(camera.zoom);
@@ -102,6 +105,7 @@ const HomeExperience = ({ SlidePos }) => {
 
   return (
     <>
+      <ambientLight />
       {SlidePos.map((e, index) => {
         const key = `Slide${index}`;
         return (
@@ -123,6 +127,7 @@ const HomeExperience = ({ SlidePos }) => {
         <planeGeometry args={[40, 30, 100, 100]} />
         <meshBasicMaterial opacity={0} transparent={true} />
       </mesh>
+      {pageState === 7 ? <ImageSplitBox /> : null}
     </>
   );
 };

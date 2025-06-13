@@ -43,15 +43,15 @@ const Loading = () => {
           className="intro absolute flex flex-col items-center justify-center w-full h-full bg-[#133238] z-50"
           ref={introRef}
         >
-          <h1 className="title font-[NaverFont] text-7xl font-black text-[#011008] z-[100]">
+          <h1 className="title font-[NaverFont] text-9xl font-black text-[#011008] z-[100]">
             Naver Labs
           </h1>
-          <h2
-            className="sub-title-1 font-[NaverFont] text-5xl font-black text-[#73c697] z-[100] mt-8"
+          <img
+            className="sub-title-1  z-[100] mt-20"
             ref={subtitleRef}
-          >
-            We the Navigators
-          </h2>
+            src="https://recruit.navercorp.com/share/tmplat/naver/img/main/slogan.svg"
+          />
+
           <div
             className="absolute bottom-10 font-[NaverFont] cursor-pointer text-[#73c69775] text-2xl"
             onClick={() => {
