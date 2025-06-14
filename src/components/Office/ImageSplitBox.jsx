@@ -79,7 +79,7 @@ const ImageSplitBox = () => {
           <mesh
             key={index}
             ref={(el) => (meshRefs.current[index] = el)}
-            rotation={[0, Math.PI, 0]}
+            rotation={[0, Math.PI / 2, 0]}
             position={[x, 0, -5]}
             material={material}
           >
