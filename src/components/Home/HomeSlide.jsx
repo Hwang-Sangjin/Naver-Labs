@@ -4,8 +4,6 @@ import { useEffect, useState, useRef, useTransition, useMemo } from "react";
 import { createNoise3D } from "simplex-noise";
 import * as THREE from "three";
 
-const noise3D = createNoise3D();
-
 const HomeSlide = ({
   position,
   cursorPos,
@@ -16,6 +14,7 @@ const HomeSlide = ({
   j,
   centerSlide,
   centerUpSlide,
+  textureMaterial,
 }) => {
   const [distanceOpacity, setDistanceOpacity] = useState(0.25);
   const [rotationZ, setRotationZ] = useState(0);
@@ -28,6 +27,8 @@ const HomeSlide = ({
   const WaveLengthThresholdValue = 5;
   const WaveDisThresholdValue = 11;
   const WaveLengthPI = Math.PI * 13;
+  const [previousMaterial, setPreviousMaterial] = useState();
+  const [isTextured, setIsTextured] = useState(false);
 
   const calculateAngleThree = (A, B, C) => {
     // Vectors BA and BC
@@ -62,6 +63,10 @@ const HomeSlide = ({
   }, [cursorPos, position, pageState]);
 
   const Transition = () => {
+    if (isTextured) {
+      slideRef.current.material = previousMaterial;
+      setIsTextured(false);
+    }
     // Calculate distance between card position and smoothed cursor position
     const A = new THREE.Vector3(...position);
     const B = new THREE.Vector3(0, 0, 0);
@@ -80,6 +85,7 @@ const HomeSlide = ({
     setRotationZ(Math.PI / 2);
     setSlidePosition([position[0], position[1], position[2]]);
     //setRotationZ(0);
+
     setColor("#30947c");
   };
 
@@ -223,27 +229,43 @@ const HomeSlide = ({
 
   const StageEffect6 = () => {
     setRotationX(0);
-    setRotationY(0);
-    setRotationZ(Math.PI / 2);
+    setRotationY(Math.PI / 2);
+    setRotationZ(0);
     setColor("#14cf64");
 
     if (centerSlide.includes(index)) {
       setDistanceOpacity(0.5);
-      setSlideScale([3, 3.3, 0.495]); // 1.5 ,0.15 ,1 -> 4.5 16.83 1  450 1683  150  561  50 147 400 1176  500 1470
+      setSlideScale([0.33, 30, 0.48]); // 1.5 ,0.15 ,1 -> 4.5 16.83 1  450 1683  150  561  50 147 400 1176  500 1470
       //setRotationY(Math.PI);
       setSlidePosition([position[0] / 2, position[1], position[2]]);
+
+      if (!isTextured) {
+        setPreviousMaterial(slideRef.current.material);
+        setIsTextured(true);
+      }
+      slideRef.current.material = textureMaterial;
     } else if (centerUpSlide.includes(index)) {
       setDistanceOpacity(0.5);
-      setSlideScale([3, 3.3, 0.495]);
+      setSlideScale([0.33, 30, 0.48]);
       //setRotationY(Math.PI);
       setSlidePosition([position[0] / 2 + 0.5, position[1] - 1.7, position[2]]);
+
+      if (!isTextured) {
+        setPreviousMaterial(slideRef.current.material);
+        setIsTextured(true);
+      }
+      slideRef.current.material = textureMaterial;
     } else {
       setSlideScale([0, 0, 0]);
     }
   };
 
   useFrame((state, delta) => {
-    StageFrame0(delta);
+    if (pageState === 7) {
+      StageFrame7(delta);
+    } else {
+      StageFrame0(delta);
+    }
   });
 
   const getShortestRotation = (currentRad, targetRad) => {
@@ -328,9 +350,66 @@ const HomeSlide = ({
       );
     }
   };
+  const StageFrame7 = (delta) => {
+    delta *= 5;
+    if (slideRef.current) {
+      const currentRadX = slideRef.current.rotation.x;
+      // 최단 회전 각도 계산 (라디안)
+
+      // 부드러운 보간
+      slideRef.current.rotation.x = THREE.MathUtils.lerp(
+        currentRadX,
+        rotationX,
+        delta
+      );
+
+      const currentRadY = slideRef.current.rotation.y;
+      // 최단 회전 각도 계산 (라디안)
+
+      // 부드러운 보간
+      slideRef.current.rotation.y = THREE.MathUtils.lerp(
+        currentRadY,
+        rotationY,
+        delta
+      );
+
+      const currentRadZ = slideRef.current.rotation.z;
+      // 최단 회전 각도 계산 (라디안)
+
+      // if (index === 127) {
+      //   console.log(targetRadZ);
+      // }
+      // 부드러운 보간
+      slideRef.current.rotation.z = THREE.MathUtils.lerp(
+        currentRadZ,
+        rotationZ,
+        delta
+      );
+
+      slideRef.current.scale.x = THREE.MathUtils.lerp(
+        slideRef.current.scale.x,
+        slideScale[0],
+        delta
+      );
+      slideRef.current.scale.y = THREE.MathUtils.lerp(
+        slideRef.current.scale.y,
+        slideScale[1],
+        delta
+      );
+      slideRef.current.scale.z = THREE.MathUtils.lerp(
+        slideRef.current.scale.z,
+        slideScale[2],
+        delta
+      );
+    }
+  };
 
   return (
-    <mesh ref={slideRef} position={slidePosition}>
+    <mesh
+      ref={slideRef}
+      position={slidePosition}
+      // material={pageState === 7 ? textureMaterial : null}
+    >
       <boxGeometry args={[1.5, 0.15, 1]} />
       <meshBasicMaterial
         color={color}

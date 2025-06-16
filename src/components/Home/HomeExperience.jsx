@@ -30,9 +30,52 @@ const HomeExperience = ({ SlidePos }) => {
     13, 36, 59, 82, 105, 128, 151, 174, 197, 220, 243, 266, 289, 312, 335, 358,
     381,
   ];
+
+  const texture1 = useLoader(TextureLoader, "/image/NaverNavigator.png");
+  const texture2 = useLoader(TextureLoader, "/image/NaverNetflix.png");
+  const texture3 = useLoader(TextureLoader, "/image/NaverPlusStore.png");
+  const texture4 = useLoader(TextureLoader, "/image/NaverLabs.png");
+  const boxes = 34;
+
+  const textureOffsets = useMemo(() => {
+    const offsets = [];
+    const uSize = 1 / boxes;
+
+    for (let i = 0; i < boxes; i++) {
+      offsets.push({
+        offset: [i * uSize, 0],
+        scale: [uSize, 1],
+      });
+    }
+    return offsets;
+  }, [boxes]);
+
+  const materials = useMemo(() => {
+    return textureOffsets.map((offset) => {
+      const front = texture1.clone();
+      const left = texture4.clone();
+      const back = texture3.clone();
+      const right = texture2.clone();
+
+      [front, left, right, back].forEach((tex) => {
+        tex.offset.set(...offset.offset);
+        tex.repeat.set(...offset.scale);
+        tex.needsUpdate = true;
+      });
+
+      return [
+        new THREE.MeshStandardMaterial({ map: right }), // Right (+X)
+        new THREE.MeshStandardMaterial({ map: left }), // Left (-X)
+        new THREE.MeshStandardMaterial(), // Top (+Y)
+        new THREE.MeshStandardMaterial(), // Bottom (-Y)
+        new THREE.MeshStandardMaterial({ map: front }), // Front (+Z)
+        new THREE.MeshStandardMaterial({ map: back }), // Back (-Z)
+      ];
+    });
+  }, [texture1, texture2, texture3, texture4, boxes]);
   //34개
 
-  const targetZoom = useRef(pageState === 7 ? 4 : 2.5);
+  const targetZoom = useRef(5);
   const currentZoom = useRef(camera.zoom);
 
   const sizes = {
@@ -56,7 +99,7 @@ const HomeExperience = ({ SlidePos }) => {
     if (pageState >= 9) {
       navigator("/building");
     } else {
-      targetZoom.current = pageState === 7 ? 5 : 2.5;
+      targetZoom.current = pageState % 2 === 0 ? 5 : 2.5;
     }
   }, [pageState]);
 
@@ -108,6 +151,14 @@ const HomeExperience = ({ SlidePos }) => {
       <ambientLight />
       {SlidePos.map((e, index) => {
         const key = `Slide${index}`;
+
+        let textureMaterial = null;
+        if (centerSlide.includes(index)) {
+          textureMaterial = materials[Math.floor(index / 23) * 2];
+        } else if (centerUpSlide.includes(index)) {
+          textureMaterial = materials[Math.floor(index / 23) * 2 + 1];
+        }
+
         return (
           <HomeSlide
             key={key}
@@ -120,6 +171,7 @@ const HomeExperience = ({ SlidePos }) => {
             j={index % 18}
             centerSlide={centerSlide}
             centerUpSlide={centerUpSlide}
+            textureMaterial={textureMaterial}
           />
         );
       })}
@@ -127,7 +179,6 @@ const HomeExperience = ({ SlidePos }) => {
         <planeGeometry args={[40, 30, 100, 100]} />
         <meshBasicMaterial opacity={0} transparent={true} />
       </mesh>
-      {pageState === 7 ? <ImageSplitBox /> : null}
     </>
   );
 };
