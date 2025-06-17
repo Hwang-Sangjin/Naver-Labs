@@ -3,6 +3,7 @@ import { set } from "lodash";
 import { useEffect, useState, useRef, useTransition, useMemo } from "react";
 import { createNoise3D } from "simplex-noise";
 import * as THREE from "three";
+import useHomePattern4Rotation from "../../store/useHomePattern4Rotation";
 
 const HomeSlide = ({
   position,
@@ -12,9 +13,14 @@ const HomeSlide = ({
   waveRadius,
   i,
   j,
-  centerSlide,
-  centerUpSlide,
+  center1Slide,
+  center2Slide,
+  center3Slide,
+  center4Slide,
+  center5Slide,
+  center6Slide,
   textureMaterial,
+  centerIndex,
 }) => {
   const [distanceOpacity, setDistanceOpacity] = useState(0.25);
   const [rotationZ, setRotationZ] = useState(0);
@@ -29,6 +35,8 @@ const HomeSlide = ({
   const WaveLengthPI = Math.PI * 13;
   const [previousMaterial, setPreviousMaterial] = useState();
   const [isTextured, setIsTextured] = useState(false);
+  const { homePattern4Rotation } = useHomePattern4Rotation();
+  const intervalRef = useRef(null);
 
   const calculateAngleThree = (A, B, C) => {
     // Vectors BA and BC
@@ -60,7 +68,18 @@ const HomeSlide = ({
     } else if (pageState === 9) {
       StageEffect8();
     }
-  }, [cursorPos, position, pageState]);
+  }, [cursorPos, position, pageState, homePattern4Rotation]);
+
+  useEffect(() => {
+    const delta = 15 * centerIndex;
+    if (pageState === 7) {
+      intervalRef.current = setInterval(() => {
+        setRotationY(homePattern4Rotation);
+      }, delta);
+    }
+
+    return () => clearInterval(intervalRef.current);
+  }, [homePattern4Rotation]);
 
   const Transition = () => {
     if (isTextured) {
@@ -229,26 +248,90 @@ const HomeSlide = ({
 
   const StageEffect6 = () => {
     setRotationX(0);
-    setRotationY(Math.PI / 2);
+
     setRotationZ(0);
     setColor("#14cf64");
 
-    if (centerSlide.includes(index)) {
+    if (center1Slide.includes(index)) {
       setDistanceOpacity(0.5);
-      setSlideScale([0.33, 30, 0.48]); // 1.5 ,0.15 ,1 -> 4.5 16.83 1  450 1683  150  561  50 147 400 1176  500 1470
+      setSlideScale([0.14, 30, 0.21]); // 1.5 ,0.15 ,1 -> 4.5 16.83 1  450 1683  150  561  50 147 400 1176  500 1470
       //setRotationY(Math.PI);
-      setSlidePosition([position[0] / 2, position[1], position[2]]);
+      setSlidePosition([
+        position[0] / 1.5 - 0.444,
+        position[1] - 5,
+        position[2],
+      ]);
 
       if (!isTextured) {
         setPreviousMaterial(slideRef.current.material);
         setIsTextured(true);
       }
       slideRef.current.material = textureMaterial;
-    } else if (centerUpSlide.includes(index)) {
+    } else if (center2Slide.includes(index)) {
       setDistanceOpacity(0.5);
-      setSlideScale([0.33, 30, 0.48]);
+      setSlideScale([0.14, 30, 0.21]); // 1.5 ,0.15 ,1 -> 4.5 16.83 1  450 1683  150  561  50 147 400 1176  500 1470
       //setRotationY(Math.PI);
-      setSlidePosition([position[0] / 2 + 0.5, position[1] - 1.7, position[2]]);
+      setSlidePosition([
+        position[0] / 1.5 - 0.222,
+        position[1] - 3.3,
+        position[2],
+      ]);
+
+      if (!isTextured) {
+        setPreviousMaterial(slideRef.current.material);
+        setIsTextured(true);
+      }
+      slideRef.current.material = textureMaterial;
+    } else if (center3Slide.includes(index)) {
+      setDistanceOpacity(0.5);
+      setSlideScale([0.14, 30, 0.21]); // 1.5 ,0.15 ,1 -> 4.5 16.83 1  450 1683  150  561  50 147 400 1176  500 1470
+      //setRotationY(Math.PI);
+      setSlidePosition([position[0] / 1.5, position[1] - 1.6, position[2]]);
+
+      if (!isTextured) {
+        setPreviousMaterial(slideRef.current.material);
+        setIsTextured(true);
+      }
+      slideRef.current.material = textureMaterial;
+    } else if (center4Slide.includes(index)) {
+      setDistanceOpacity(0.5);
+      setSlideScale([0.14, 30, 0.21]); // 1.5 ,0.15 ,1 -> 4.5 16.83 1  450 1683  150  561  50 147 400 1176  500 1470
+      //setRotationY(Math.PI);
+      setSlidePosition([
+        position[0] / 1.5 + 0.222,
+        position[1] + 0.1,
+        position[2],
+      ]);
+
+      if (!isTextured) {
+        setPreviousMaterial(slideRef.current.material);
+        setIsTextured(true);
+      }
+      slideRef.current.material = textureMaterial;
+    } else if (center5Slide.includes(index)) {
+      setDistanceOpacity(0.5);
+      setSlideScale([0.14, 30, 0.21]); // 1.5 ,0.15 ,1 -> 4.5 16.83 1  450 1683  150  561  50 147 400 1176  500 1470
+      //setRotationY(Math.PI);
+      setSlidePosition([
+        position[0] / 1.5 + 0.444,
+        position[1] + 1.8,
+        position[2],
+      ]);
+
+      if (!isTextured) {
+        setPreviousMaterial(slideRef.current.material);
+        setIsTextured(true);
+      }
+      slideRef.current.material = textureMaterial;
+    } else if (center6Slide.includes(index)) {
+      setDistanceOpacity(0.5);
+      setSlideScale([0.14, 30, 0.21]); // 1.5 ,0.15 ,1 -> 4.5 16.83 1  450 1683  150  561  50 147 400 1176  500 1470
+      //setRotationY(Math.PI);
+      setSlidePosition([
+        position[0] / 1.5 + 0.666,
+        position[1] + 3.5,
+        position[2],
+      ]);
 
       if (!isTextured) {
         setPreviousMaterial(slideRef.current.material);
@@ -366,7 +449,7 @@ const HomeSlide = ({
       const currentRadY = slideRef.current.rotation.y;
       // 최단 회전 각도 계산 (라디안)
 
-      // 부드러운 보간
+      //부드러운 보간
       slideRef.current.rotation.y = THREE.MathUtils.lerp(
         currentRadY,
         rotationY,

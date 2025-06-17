@@ -6,7 +6,8 @@ import { TextureLoader } from "three";
 import { OrbitControls, useScroll } from "@react-three/drei";
 import { useNavigate } from "react-router";
 import useLoadingStateStore from "../../store/useLoadingStateStore";
-import ImageSplitBox from "../Office/ImageSplitBox";
+import useCurrentPage from "../../store/useCurrentPage";
+
 const HomeExperience = ({ SlidePos }) => {
   const planeRef = useRef();
   const [screenCursor, setScreenCursor] = useState(
@@ -16,26 +17,56 @@ const HomeExperience = ({ SlidePos }) => {
   const raycaster = useRef(new THREE.Raycaster());
   const { camera } = useThree();
   const data = useScroll();
-  const [currentPage, setCurrentPage] = useState(0);
+  const { currentPage, setCurrentPage } = useCurrentPage();
   const [pageState, setPageState] = useState(0);
   const [waveRadius, setWaveRadius] = useState(0);
   const [isTimerActive, setIsTimerActive] = useState(false); // 타이머 상태 플래그
   const { loadingStateStore, setLoadingStateStore } = useLoadingStateStore();
   const navigator = useNavigate();
-  const centerSlide = [
+  const center4Slide = [
     12, 35, 58, 81, 104, 127, 150, 173, 196, 219, 242, 265, 288, 311, 334, 357,
     380,
   ];
-  const centerUpSlide = [
+  const center3Slide = [
     13, 36, 59, 82, 105, 128, 151, 174, 197, 220, 243, 266, 289, 312, 335, 358,
     381,
   ];
+  const center1Slide = [
+    15, 38, 61, 84, 107, 130, 153, 176, 199, 222, 245, 268, 291, 314, 337, 360,
+    383,
+  ];
+  const center2Slide = [
+    14, 37, 60, 83, 106, 129, 152, 175, 198, 221, 244, 267, 290, 313, 336, 359,
+    382,
+  ];
+  const center5Slide = [
+    11, 34, 57, 80, 103, 126, 149, 172, 195, 218, 241, 264, 287, 310, 333, 356,
+    379,
+  ];
+  const center6Slide = [
+    10, 33, 56, 79, 102, 125, 148, 171, 194, 217, 240, 263, 286, 309, 332, 355,
+    378,
+  ];
+  const allCenterSlide = [
+    ...center1Slide,
+    ...center2Slide,
+    ...center3Slide,
+    ...center4Slide,
+    ...center5Slide,
+    ...center6Slide,
+  ];
+
+  allCenterSlide.sort(function (a, b) {
+    if (a > b) return 1;
+    if (a === b) return 0;
+    if (a < b) return -1;
+  });
 
   const texture1 = useLoader(TextureLoader, "/image/NaverNavigator.png");
   const texture2 = useLoader(TextureLoader, "/image/NaverNetflix.png");
   const texture3 = useLoader(TextureLoader, "/image/NaverPlusStore.png");
   const texture4 = useLoader(TextureLoader, "/image/NaverLabs.png");
-  const boxes = 34;
+  const boxes = 102;
 
   const textureOffsets = useMemo(() => {
     const offsets = [];
@@ -153,11 +184,20 @@ const HomeExperience = ({ SlidePos }) => {
         const key = `Slide${index}`;
 
         let textureMaterial = null;
-        if (centerSlide.includes(index)) {
-          textureMaterial = materials[Math.floor(index / 23) * 2];
-        } else if (centerUpSlide.includes(index)) {
-          textureMaterial = materials[Math.floor(index / 23) * 2 + 1];
+        if (center1Slide.includes(index)) {
+          textureMaterial = materials[Math.floor(index / 23) * 6];
+        } else if (center2Slide.includes(index)) {
+          textureMaterial = materials[Math.floor(index / 23) * 6 + 1];
+        } else if (center3Slide.includes(index)) {
+          textureMaterial = materials[Math.floor(index / 23) * 6 + 2];
+        } else if (center4Slide.includes(index)) {
+          textureMaterial = materials[Math.floor(index / 23) * 6 + 3];
+        } else if (center5Slide.includes(index)) {
+          textureMaterial = materials[Math.floor(index / 23) * 6 + 4];
+        } else if (center6Slide.includes(index)) {
+          textureMaterial = materials[Math.floor(index / 23) * 6 + 5];
         }
+        const centerIndex = allCenterSlide.indexOf(index);
 
         return (
           <HomeSlide
@@ -169,9 +209,14 @@ const HomeExperience = ({ SlidePos }) => {
             waveRadius={waveRadius}
             i={Math.floor(index / 24)}
             j={index % 18}
-            centerSlide={centerSlide}
-            centerUpSlide={centerUpSlide}
+            center1Slide={center1Slide}
+            center2Slide={center2Slide}
+            center3Slide={center3Slide}
+            center4Slide={center4Slide}
+            center5Slide={center5Slide}
+            center6Slide={center6Slide}
             textureMaterial={textureMaterial}
+            centerIndex={centerIndex}
           />
         );
       })}
