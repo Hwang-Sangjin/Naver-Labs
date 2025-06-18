@@ -7,6 +7,7 @@ import { OrbitControls, useScroll } from "@react-three/drei";
 import { useNavigate } from "react-router";
 import useLoadingStateStore from "../../store/useLoadingStateStore";
 import useCurrentPage from "../../store/useCurrentPage";
+import HomePattern4MeshGenerator from "./HomePattern4MeshGenerator";
 
 const HomeExperience = ({ SlidePos }) => {
   const planeRef = useRef();
@@ -130,9 +131,11 @@ const HomeExperience = ({ SlidePos }) => {
     if (pageState >= 9) {
       navigator("/building");
     } else {
-      targetZoom.current = pageState % 2 === 0 ? 5 : 2.5;
+      const curPage = Math.floor(data.offset * data.pages);
+      targetZoom.current =
+        pageState % 2 === 0 ? 5 : 2.5 + (data.offset - 0.2 * curPage) * 3;
     }
-  }, [pageState]);
+  }, [pageState, data.offset]);
 
   // Smooth zoom animation
   useFrame(() => {
@@ -224,6 +227,7 @@ const HomeExperience = ({ SlidePos }) => {
         <planeGeometry args={[40, 30, 100, 100]} />
         <meshBasicMaterial opacity={0} transparent={true} />
       </mesh>
+      {pageState === 7 ? <HomePattern4MeshGenerator /> : null}
     </>
   );
 };

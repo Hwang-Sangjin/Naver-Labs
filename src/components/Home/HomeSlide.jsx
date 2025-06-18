@@ -4,6 +4,7 @@ import { useEffect, useState, useRef, useTransition, useMemo } from "react";
 import { createNoise3D } from "simplex-noise";
 import * as THREE from "three";
 import useHomePattern4Rotation from "../../store/useHomePattern4Rotation";
+import useHomePattern4OnClickIndex from "../../store/useHomePattern4OnClickIndex";
 
 const HomeSlide = ({
   position,
@@ -36,6 +37,7 @@ const HomeSlide = ({
   const [previousMaterial, setPreviousMaterial] = useState();
   const [isTextured, setIsTextured] = useState(false);
   const { homePattern4Rotation } = useHomePattern4Rotation();
+  const { setOnClickedIndex } = useHomePattern4OnClickIndex();
   const intervalRef = useRef(null);
 
   const calculateAngleThree = (A, B, C) => {
@@ -346,6 +348,8 @@ const HomeSlide = ({
   useFrame((state, delta) => {
     if (pageState === 7) {
       StageFrame7(delta);
+    } else if (pageState % 2 === 0) {
+      StageFrame7(delta);
     } else {
       StageFrame0(delta);
     }
@@ -487,10 +491,16 @@ const HomeSlide = ({
     }
   };
 
+  const onClickStage7 = () => {
+    const level = (homePattern4Rotation / (Math.PI / 2)) % 4;
+    setOnClickedIndex(level);
+  };
+
   return (
     <mesh
       ref={slideRef}
       position={slidePosition}
+      onClick={() => onClickStage7()}
       // material={pageState === 7 ? textureMaterial : null}
     >
       <boxGeometry args={[1.5, 0.15, 1]} />

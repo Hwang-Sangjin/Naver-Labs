@@ -11,9 +11,11 @@
   },
   "dependencies": {
     "@material-tailwind/react": "^2.1.10",
+    "@react-three/csg": "^4.0.0",
     "@react-three/drei": "9.92.7",
     "@react-three/fiber": "8.15.12",
     "@react-three/postprocessing": "2.15.11",
+    "@react-three/rapier": "^2.1.0",
     "@tailwindcss/vite": "^4.0.14",
     "axios": "^1.8.4",
     "gltfjsx": "^6.5.3",

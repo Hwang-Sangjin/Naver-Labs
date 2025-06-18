@@ -1,12 +1,20 @@
-import {
-  OrthographicCamera,
-  OrbitControls,
-  useHelper,
-} from "@react-three/drei";
-import { useRef } from "react";
-import * as THREE from "three";
+import { OrthographicCamera, OrbitControls } from "@react-three/drei";
+import { useThree } from "@react-three/fiber";
+import { useEffect } from "react";
 
 const HomeOrthoCamera = () => {
+  const { size, camera } = useThree();
+  const aspect = size.width / size.height;
+  const baseSize = 20; // Adjust to control visible area
+
+  useEffect(() => {
+    camera.left = -baseSize * aspect;
+    camera.right = baseSize * aspect;
+    camera.top = baseSize;
+    camera.bottom = -baseSize;
+    camera.updateProjectionMatrix();
+  }, [size, camera]);
+
   return (
     <OrthographicCamera
       makeDefault
@@ -14,10 +22,6 @@ const HomeOrthoCamera = () => {
       near={-100}
       far={400}
       position={[0, 0, 10]}
-      left={-40}
-      right={40}
-      top={20}
-      bottom={-20}
     />
   );
 };
