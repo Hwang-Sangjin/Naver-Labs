@@ -435,6 +435,22 @@ const HomeSlide = ({
         slideScale[2],
         delta
       );
+
+      slideRef.current.position.x = THREE.MathUtils.lerp(
+        slideRef.current.position.x,
+        slidePosition[0],
+        delta
+      );
+      slideRef.current.position.y = THREE.MathUtils.lerp(
+        slideRef.current.position.y,
+        slidePosition[1],
+        delta
+      );
+      slideRef.current.position.z = THREE.MathUtils.lerp(
+        slideRef.current.position.z,
+        slidePosition[2],
+        delta
+      );
     }
   };
   const StageFrame7 = (delta) => {
@@ -488,6 +504,22 @@ const HomeSlide = ({
         slideScale[2],
         delta
       );
+
+      slideRef.current.position.x = THREE.MathUtils.lerp(
+        slideRef.current.position.x,
+        slidePosition[0],
+        delta
+      );
+      slideRef.current.position.y = THREE.MathUtils.lerp(
+        slideRef.current.position.y,
+        slidePosition[1],
+        delta
+      );
+      slideRef.current.position.z = THREE.MathUtils.lerp(
+        slideRef.current.position.z,
+        slidePosition[2],
+        delta
+      );
     }
   };
 
@@ -499,7 +531,6 @@ const HomeSlide = ({
   return (
     <mesh
       ref={slideRef}
-      position={slidePosition}
       onClick={() => onClickStage7()}
       // material={pageState === 7 ? textureMaterial : null}
     >

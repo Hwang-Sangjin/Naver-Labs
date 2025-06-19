@@ -7,7 +7,7 @@ import { OrbitControls, useScroll } from "@react-three/drei";
 import { useNavigate } from "react-router";
 import useLoadingStateStore from "../../store/useLoadingStateStore";
 import useCurrentPage from "../../store/useCurrentPage";
-import HomePattern4MeshGenerator from "./HomePattern4MeshGenerator";
+import HomePattern4PhysicsScene from "./HomePattern4PhysicsScene";
 
 const HomeExperience = ({ SlidePos }) => {
   const planeRef = useRef();
@@ -227,7 +227,7 @@ const HomeExperience = ({ SlidePos }) => {
         <planeGeometry args={[40, 30, 100, 100]} />
         <meshBasicMaterial opacity={0} transparent={true} />
       </mesh>
-      {pageState === 7 ? <HomePattern4MeshGenerator /> : null}
+      {pageState === 7 ? <HomePattern4PhysicsScene /> : null}
     </>
   );
 };
