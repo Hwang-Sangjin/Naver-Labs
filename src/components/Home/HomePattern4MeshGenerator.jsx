@@ -41,7 +41,11 @@ const HomePattern4MeshGenerator = ({ count = 200 }) => {
   }, [instances]);
 
   return (
-    <InstancedRigidBodies instances={instances} colliders="cuboid">
+    <InstancedRigidBodies
+      gravityScale={1}
+      instances={instances}
+      colliders="cuboid"
+    >
       <instancedMesh
         ref={meshRef}
         args={[undefined, undefined, count]}

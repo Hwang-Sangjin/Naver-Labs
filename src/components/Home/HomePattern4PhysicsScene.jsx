@@ -23,13 +23,15 @@ const HomePattern4PhysicsScene = ({ count = 200 }) => {
   const { onClickedIndex } = useHomePattern4OnClickIndex();
   const { homePattern4Rotation } = useHomePattern4Rotation();
   const [isGroundExist, setIsGroundExist] = useState(true);
+  const [isClickedGround, setIsClickedGround] = useState(true);
 
   useEffect(() => {
-    setIsGroundExist(false);
+    setIsClickedGround(false);
   }, [onClickedIndex]);
 
   useEffect(() => {
     setIsGroundExist(false);
+    setIsClickedGround(true);
 
     const timeout = setTimeout(() => {
       setIsGroundExist(true);
@@ -101,15 +103,33 @@ const HomePattern4PhysicsScene = ({ count = 200 }) => {
             <CuboidCollider args={[10, 1, 15]} restitution={0.1} />
             <mesh position={[0, 0, 0]} receiveShadow>
               <boxGeometry args={[20, 2, 20]} />
-              <meshBasicMaterial />
-              {/* <MeshTransmissionMaterial
-                 transmission={0.9}
-                 thickness={0.2}
-                 roughness={0.1}
-                 ior={1.5}
-                 chromaticAberration={0.05}
-                 backside={true}
-               /> */}
+
+              <MeshTransmissionMaterial
+                transmission={0.9}
+                thickness={0.2}
+                roughness={0.1}
+                ior={1.5}
+                chromaticAberration={0.05}
+                backside={true}
+              />
+            </mesh>
+          </RigidBody>
+        ) : null}
+
+        {isClickedGround ? (
+          <RigidBody colliders={false} position={[0, 6, 0]} type="fixed">
+            <CuboidCollider args={[20, 1, 20]} restitution={0.1} />
+            <mesh position={[0, 0, 0]} receiveShadow>
+              <boxGeometry args={[20, 2, 20]} />
+
+              <MeshTransmissionMaterial
+                transmission={0.9}
+                thickness={0.2}
+                roughness={0.1}
+                ior={1.5}
+                chromaticAberration={0.05}
+                backside={true}
+              />
             </mesh>
           </RigidBody>
         ) : null}
