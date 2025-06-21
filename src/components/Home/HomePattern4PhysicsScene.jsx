@@ -39,37 +39,6 @@ const HomePattern4PhysicsScene = ({ count = 200 }) => {
     return () => clearTimeout(timeout);
   }, [homePattern4Rotation]);
 
-  // 각 박스의 초기 위치와 회전을 설정
-  // const instances = useMemo(
-  //   () =>
-  //     Array.from({ length: count }, (_, i) => ({
-  //       key: i,
-  //       position: [
-  //         MathUtils.randFloatSpread(5), // x: -5 ~ 5
-  //         10 + i * 0.2, // y: 10부터 순차적으로 약간씩 높게
-  //         MathUtils.randFloatSpread(5) + 10, // z: -5 ~ 5
-  //       ],
-  //       rotation: [
-  //         Math.random() * Math.PI,
-  //         Math.random() * Math.PI,
-  //         Math.random() * Math.PI,
-  //       ],
-  //     })),
-  //   [count]
-  // );
-
-  // useEffect(() => {
-  //   if (meshRef.current) {
-  //     for (let i = 0; i < count; i++) {
-  //       meshRef.current.setColorAt(
-  //         i,
-  //         new Color(colors[Math.floor(Math.random() * colors.length)])
-  //       );
-  //     }
-  //     meshRef.current.instanceColor.needsUpdate = true;
-  //   }
-  // }, []);
-
   return (
     <Suspense>
       <Physics>
