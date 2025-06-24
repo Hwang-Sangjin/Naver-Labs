@@ -1,7 +1,15 @@
 import BuildingFiberContainer from "../components/Building/BuildingFiberContainer";
+import Loading from "../components/Loading/Loading";
+import Mouse from "../components/Loading/Mouse";
 
 const Building = () => {
-  return <BuildingFiberContainer />;
+  return (
+    <>
+      <Loading />
+      <BuildingFiberContainer />
+      <Mouse />
+    </>
+  );
 };
 
 export default Building;

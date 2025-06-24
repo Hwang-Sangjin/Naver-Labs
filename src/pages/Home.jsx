@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import HomeFiberContainer from "../components/Home/HomeFiberContainer";
 import Loading from "../components/Loading/Loading";
+import Mouse from "../components/Loading/Mouse";
 
 const Home = () => {
   useEffect(() => {
@@ -15,6 +16,7 @@ const Home = () => {
     <>
       <Loading />
       <HomeFiberContainer />
+      <Mouse page={"home"} />
     </>
   );
 };

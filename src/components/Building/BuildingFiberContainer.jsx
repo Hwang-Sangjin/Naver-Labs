@@ -12,7 +12,6 @@ const BuildingFiberContainer = () => {
 
   return (
     <div className="relative w-full h-full">
-      <Loading />
       <button
         onClick={changeSunTime}
         className="absolute z-10 top-2 right-2 bg-green-300 text-white px-4 py-2 rounded"

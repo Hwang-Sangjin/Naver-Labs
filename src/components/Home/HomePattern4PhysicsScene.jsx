@@ -64,6 +64,7 @@ const HomePattern4PhysicsScene = ({ count = 200 }) => {
           </instancedMesh>
           <CuboidCollider args={[1, 1, 1]} restitution={0.1} />
         </InstancedRigidBodies> */}
+
         <HomePattern4MeshGenerator />
 
         {/* 고정된 바닥 */}

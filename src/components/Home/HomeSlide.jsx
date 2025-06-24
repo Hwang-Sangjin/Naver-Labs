@@ -70,13 +70,13 @@ const HomeSlide = ({
     } else if (pageState === 9) {
       StageEffect8();
     }
-  }, [cursorPos, position, pageState, homePattern4Rotation]);
+  }, [cursorPos, position, pageState]);
 
   useEffect(() => {
     const delta = 15 * centerIndex;
     if (pageState === 7) {
       intervalRef.current = setInterval(() => {
-        setRotationY(homePattern4Rotation);
+        setRotationY((homePattern4Rotation[0] * Math.PI) / 2);
       }, delta);
     }
 
@@ -524,8 +524,7 @@ const HomeSlide = ({
   };
 
   const onClickStage7 = () => {
-    const level = (homePattern4Rotation / (Math.PI / 2)) % 4;
-    setOnClickedIndex(level);
+    setOnClickedIndex(homePattern4Rotation[0]);
   };
 
   return (
