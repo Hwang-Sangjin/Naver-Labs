@@ -1,7 +1,7 @@
 import { create } from "zustand";
 
 const useHomePattern4OnClickIndex = create((set) => ({
-  onClickedIndex: null,
+  onClickedIndex: { 0: 0, 1: 0, 2: 0, 3: 0 },
 
   setOnClickedIndex: (onClickedIndex) => set({ onClickedIndex }),
 }));

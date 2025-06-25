@@ -9,27 +9,9 @@ const HomePattern4Naver = ({
   ...props
 }) => {
   const { homePattern4Rotation } = useHomePattern4Rotation();
-  const [type, setType] = useState("fixed");
-  const rigidBodyRef = useRef();
-
-  useEffect(() => {
-    if (homePattern4Rotation[0] === 0) {
-      setType("dynamic");
-    } else {
-      if (homePattern4Rotation[1] !== 0) {
-        setType("fixed");
-      }
-    }
-  }, [homePattern4Rotation]);
 
   return (
-    <RigidBody
-      enabledTranslations={[true, true, false]}
-      ref={rigidBodyRef}
-      position={position}
-      type={type}
-      {...props}
-    >
+    <RigidBody enabledTranslations={[true, true, false]} position={position}>
       <Box args={size}>
         <meshStandardMaterial color="blue" />
       </Box>

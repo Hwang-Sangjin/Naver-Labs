@@ -11,10 +11,7 @@ const HomePattern4UI = () => {
   }, []);
 
   const onClickRotation = (dir) => {
-    setHomePattern4Rotation([
-      (homePattern4Rotation[0] + dir + 4) % 4,
-      homePattern4Rotation[0],
-    ]);
+    setHomePattern4Rotation((homePattern4Rotation + dir + 4) % 4);
   };
 
   return (

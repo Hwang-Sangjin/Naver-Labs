@@ -106,7 +106,7 @@ const HomePattern4PhysicsScene = ({ count = 200 }) => {
       </Physics>
 
       {/* 그림자 효과 */}
-      <AccumulativeShadows
+      {/* <AccumulativeShadows
         temporal
         frames={100}
         alphaTest={0.85}
@@ -120,7 +120,7 @@ const HomePattern4PhysicsScene = ({ count = 200 }) => {
           position={[-10, 10, 5]}
           bias={0.001}
         />
-      </AccumulativeShadows>
+      </AccumulativeShadows> */}
     </Suspense>
   );
 };

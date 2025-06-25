@@ -37,7 +37,7 @@ const HomeSlide = ({
   const [previousMaterial, setPreviousMaterial] = useState();
   const [isTextured, setIsTextured] = useState(false);
   const { homePattern4Rotation } = useHomePattern4Rotation();
-  const { setOnClickedIndex } = useHomePattern4OnClickIndex();
+  const { onClickedIndex, setOnClickedIndex } = useHomePattern4OnClickIndex();
   const intervalRef = useRef(null);
 
   const calculateAngleThree = (A, B, C) => {
@@ -73,10 +73,10 @@ const HomeSlide = ({
   }, [cursorPos, position, pageState]);
 
   useEffect(() => {
-    const delta = 15 * centerIndex;
+    const delta = 20 * centerIndex;
     if (pageState === 7) {
       intervalRef.current = setInterval(() => {
-        setRotationY((homePattern4Rotation[0] * Math.PI) / 2);
+        setRotationY((homePattern4Rotation * Math.PI) / 2);
       }, delta);
     }
 
@@ -524,7 +524,10 @@ const HomeSlide = ({
   };
 
   const onClickStage7 = () => {
-    setOnClickedIndex(homePattern4Rotation[0]);
+    const temp = onClickedIndex;
+    temp[homePattern4Rotation]++;
+    console.log(temp);
+    setOnClickedIndex(temp);
   };
 
   return (

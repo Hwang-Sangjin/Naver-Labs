@@ -187,20 +187,26 @@ const HomeExperience = ({ SlidePos }) => {
         const key = `Slide${index}`;
 
         let textureMaterial = null;
+        let centerIndex;
         if (center1Slide.includes(index)) {
           textureMaterial = materials[Math.floor(index / 23) * 6];
+          centerIndex = Math.floor(index / 23) * 6;
         } else if (center2Slide.includes(index)) {
           textureMaterial = materials[Math.floor(index / 23) * 6 + 1];
+          centerIndex = Math.floor(index / 23) * 6 + 1;
         } else if (center3Slide.includes(index)) {
           textureMaterial = materials[Math.floor(index / 23) * 6 + 2];
+          centerIndex = Math.floor(index / 23) * 6 + 2;
         } else if (center4Slide.includes(index)) {
           textureMaterial = materials[Math.floor(index / 23) * 6 + 3];
+          centerIndex = Math.floor(index / 23) * 6 + 3;
         } else if (center5Slide.includes(index)) {
           textureMaterial = materials[Math.floor(index / 23) * 6 + 4];
+          centerIndex = Math.floor(index / 23) * 6 + 4;
         } else if (center6Slide.includes(index)) {
           textureMaterial = materials[Math.floor(index / 23) * 6 + 5];
+          centerIndex = Math.floor(index / 23) * 6 + 5;
         }
-        const centerIndex = allCenterSlide.indexOf(index);
 
         return (
           <HomeSlide
