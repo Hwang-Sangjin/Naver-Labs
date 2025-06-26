@@ -41,7 +41,7 @@ const HomePattern4PhysicsScene = ({ count = 200 }) => {
 
   return (
     <Suspense>
-      <Physics>
+      {/* <Physics>
         <Environment resolution={32}>
           <Lightformer position={[10, 10, 10]} scale={10} intensity={4} />
           <Lightformer
@@ -52,8 +52,8 @@ const HomePattern4PhysicsScene = ({ count = 200 }) => {
           />
           <Lightformer position={[-10, -10, -10]} scale={10} intensity={4} />
         </Environment>
-        {/* 여러 개의 박스 생성 */}
-        {/* <InstancedRigidBodies instances={instances} colliders="cuboid">
+         여러 개의 박스 생성 
+         <InstancedRigidBodies instances={instances} colliders="cuboid">
           <instancedMesh
             ref={meshRef}
             args={[undefined, undefined, count]}
@@ -63,11 +63,11 @@ const HomePattern4PhysicsScene = ({ count = 200 }) => {
             <meshStandardMaterial />
           </instancedMesh>
           <CuboidCollider args={[1, 1, 1]} restitution={0.1} />
-        </InstancedRigidBodies> */}
+        </InstancedRigidBodies> 
 
         <HomePattern4MeshGenerator />
 
-        {/* 고정된 바닥 */}
+         고정된 바닥 
         {isGroundExist ? (
           <RigidBody colliders={false} position={[0, -5, 0]} type="fixed">
             <CuboidCollider args={[10, 1, 15]} restitution={0.1} />
@@ -103,7 +103,7 @@ const HomePattern4PhysicsScene = ({ count = 200 }) => {
             </mesh>
           </RigidBody>
         ) : null}
-      </Physics>
+      </Physics> */}
 
       {/* 그림자 효과 */}
       {/* <AccumulativeShadows

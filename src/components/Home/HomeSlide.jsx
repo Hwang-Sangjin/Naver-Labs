@@ -67,8 +67,6 @@ const HomeSlide = ({
       StageEffect4();
     } else if (pageState === 7) {
       StageEffect6();
-    } else if (pageState === 9) {
-      StageEffect8();
     }
   }, [cursorPos, position, pageState]);
 

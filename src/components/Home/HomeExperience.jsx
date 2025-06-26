@@ -4,10 +4,11 @@ import { useFrame, useThree, useLoader } from "@react-three/fiber";
 import * as THREE from "three";
 import { TextureLoader } from "three";
 import { OrbitControls, useScroll } from "@react-three/drei";
-import { useNavigate } from "react-router";
+
 import useLoadingStateStore from "../../store/useLoadingStateStore";
 import useCurrentPage from "../../store/useCurrentPage";
 import HomePattern4PhysicsScene from "./HomePattern4PhysicsScene";
+import NaverBuilding from "../model/NaverBuilding";
 
 const HomeExperience = ({ SlidePos }) => {
   const planeRef = useRef();
@@ -23,7 +24,7 @@ const HomeExperience = ({ SlidePos }) => {
   const [waveRadius, setWaveRadius] = useState(0);
   const [isTimerActive, setIsTimerActive] = useState(false); // 타이머 상태 플래그
   const { loadingStateStore, setLoadingStateStore } = useLoadingStateStore();
-  const navigator = useNavigate();
+
   const center4Slide = [
     12, 35, 58, 81, 104, 127, 150, 173, 196, 219, 242, 265, 288, 311, 334, 357,
     380,
@@ -66,7 +67,7 @@ const HomeExperience = ({ SlidePos }) => {
   const texture1 = useLoader(TextureLoader, "/image/NaverNavigator.png");
   const texture2 = useLoader(TextureLoader, "/image/NaverNetflix.png");
   const texture3 = useLoader(TextureLoader, "/image/NaverPlusStore.png");
-  const texture4 = useLoader(TextureLoader, "/image/NaverLabs.png");
+  const texture4 = useLoader(TextureLoader, "/image/NaverClip.png");
   const boxes = 102;
 
   const textureOffsets = useMemo(() => {
@@ -129,7 +130,6 @@ const HomeExperience = ({ SlidePos }) => {
 
   useEffect(() => {
     if (pageState >= 9) {
-      navigator("/building");
     } else {
       const curPage = Math.floor(data.offset * data.pages);
       targetZoom.current =
@@ -208,6 +208,7 @@ const HomeExperience = ({ SlidePos }) => {
           centerIndex = Math.floor(index / 23) * 6 + 5;
         }
 
+        <NaverBuilding />;
         return (
           <HomeSlide
             key={key}
