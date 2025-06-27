@@ -8,7 +8,7 @@ const TitleComponent = ({ isCurUrl, title }) => {
   return (
     <Link
       className={`m-5 font-[NaverFont] text-2xl cursor-pointer z-10 ${
-        isCurUrl ? "text-[#e19a6e]" : "text-[#d5e1d0]"
+        isCurUrl ? "text-[#efbe9e]" : "text-[#d5e1d0]"
       }`}
       to={linkUrl}
     >
