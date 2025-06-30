@@ -3,7 +3,7 @@ import { Center, useGLTF, useScroll } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 
 export default function NaverBuilding(props) {
-  const { nodes, materials } = useGLTF("/model/building.glb");
+  const { nodes, materials } = useGLTF("/model/NaverLabs1784.glb");
 
   // const scroll = useScroll();
 
@@ -23,7 +23,12 @@ export default function NaverBuilding(props) {
 
   return (
     <Center>
-      <group {...props} dispose={null}>
+      <group
+        {...props}
+        scale={[0.1, 0.1, 0.1]}
+        position={[0, -5, 0]}
+        dispose={null}
+      >
         <mesh
           castShadow
           receiveShadow
@@ -37,4 +42,4 @@ export default function NaverBuilding(props) {
   );
 }
 
-useGLTF.preload("/building.glb");
+useGLTF.preload("/NaverLabs1784.glb");

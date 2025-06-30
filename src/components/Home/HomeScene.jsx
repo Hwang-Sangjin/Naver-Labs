@@ -11,6 +11,7 @@ import { useEffect, useRef, useState } from "react";
 import HomeExperience from "./HomeExperience";
 import useTestStore from "../../store/useTestStore";
 import { createNoise3D } from "simplex-noise";
+import NaverBuilding from "../model/NaverBuilding";
 
 const HomeScene = () => {
   const { testData, setTestData } = useTestStore();
@@ -42,6 +43,7 @@ const HomeScene = () => {
           pages={5}
         >
           <HomeExperience SlidePos={SlidePos} />
+          <NaverBuilding />
         </ScrollControls>
         <HomeOrthoCamera />
       </Canvas>
