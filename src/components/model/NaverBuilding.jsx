@@ -26,7 +26,7 @@ export default function NaverBuilding(props) {
       <group
         {...props}
         scale={[0.1, 0.1, 0.1]}
-        position={[0, -5, 0]}
+        position={[0, 0, 0]}
         dispose={null}
       >
         <mesh
