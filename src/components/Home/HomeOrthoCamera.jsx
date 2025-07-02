@@ -25,7 +25,9 @@ const HomeOrthoCamera = () => {
   }, [location]);
 
   useEffect(() => {
-    console.log(currentUrl);
+    if (currentUrl === "Naver") {
+      camera.lookAt([0, -5, 0]);
+    }
   }, [currentUrl]);
 
   return (
