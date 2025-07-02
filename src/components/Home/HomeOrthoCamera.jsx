@@ -26,7 +26,9 @@ const HomeOrthoCamera = () => {
 
   useEffect(() => {
     if (currentUrl === "Naver") {
-      camera.lookAt([0, -5, 0]);
+      camera.lookAt(0, -50, 0);
+    } else if (currentUrl === "Home") {
+      camera.lookAt(0, 0, 0);
     }
   }, [currentUrl]);
 
