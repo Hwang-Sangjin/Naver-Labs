@@ -3,6 +3,7 @@ import { useThree } from "@react-three/fiber";
 import { useEffect } from "react";
 import { useLocation } from "wouter";
 import useCurrentUrl from "../../store/useCurrentUrl";
+import gsap from "gsap";
 
 const HomeOrthoCamera = () => {
   const { size, camera } = useThree();
@@ -26,11 +27,23 @@ const HomeOrthoCamera = () => {
 
   useEffect(() => {
     if (currentUrl === "Naver") {
-      camera.lookAt(0, -50, 0);
+      gsap.to(camera.position, {
+        x: 0,
+        y: -50,
+        z: 0,
+        duration: 1,
+        ease: "power2.out",
+      });
     } else if (currentUrl === "Home") {
-      camera.lookAt(0, 0, 0);
+      gsap.to(camera.position, {
+        x: 0,
+        y: 0,
+        z: 0,
+        duration: 1,
+        ease: "power2.out",
+      });
     }
-  }, [currentUrl]);
+  }, [currentUrl, camera]);
 
   return (
     <OrthographicCamera

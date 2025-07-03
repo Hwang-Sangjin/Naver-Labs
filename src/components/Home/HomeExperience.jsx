@@ -9,6 +9,7 @@ import useLoadingStateStore from "../../store/useLoadingStateStore";
 import useCurrentPage from "../../store/useCurrentPage";
 import HomePattern4PhysicsScene from "./HomePattern4PhysicsScene";
 import NaverBuilding from "../model/NaverBuilding";
+import { useLocation } from "wouter";
 
 const HomeExperience = ({ SlidePos }) => {
   const planeRef = useRef();
@@ -24,6 +25,8 @@ const HomeExperience = ({ SlidePos }) => {
   const [waveRadius, setWaveRadius] = useState(0);
   const [isTimerActive, setIsTimerActive] = useState(false); // 타이머 상태 플래그
   const { loadingStateStore, setLoadingStateStore } = useLoadingStateStore();
+
+  const [location, navigate] = useLocation();
 
   const center4Slide = [
     12, 35, 58, 81, 104, 127, 150, 173, 196, 219, 242, 265, 288, 311, 334, 357,
@@ -130,6 +133,7 @@ const HomeExperience = ({ SlidePos }) => {
 
   useEffect(() => {
     if (pageState >= 9) {
+      navigate("/Naver");
     } else {
       const curPage = Math.floor(data.offset * data.pages);
       targetZoom.current =
