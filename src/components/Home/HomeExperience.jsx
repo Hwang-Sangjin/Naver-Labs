@@ -8,7 +8,6 @@ import { OrbitControls, useScroll } from "@react-three/drei";
 import useLoadingStateStore from "../../store/useLoadingStateStore";
 import useCurrentPage from "../../store/useCurrentPage";
 import HomePattern4PhysicsScene from "./HomePattern4PhysicsScene";
-import NaverBuilding from "../model/NaverBuilding";
 import { useLocation } from "wouter";
 
 const HomeExperience = ({ SlidePos }) => {
@@ -211,8 +210,6 @@ const HomeExperience = ({ SlidePos }) => {
           textureMaterial = materials[Math.floor(index / 23) * 6 + 5];
           centerIndex = Math.floor(index / 23) * 6 + 5;
         }
-
-        <NaverBuilding />;
         return (
           <HomeSlide
             key={key}
