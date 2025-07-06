@@ -43,7 +43,7 @@ const HomeScene = () => {
           pages={5}
         >
           <HomeExperience SlidePos={SlidePos} />
-          <NaverBuilding position={[0, -50, 0]} />
+          {/* <NaverBuilding position={[0, -50, 0]} /> */}
         </ScrollControls>
         <HomeOrthoCamera />
       </Canvas>
