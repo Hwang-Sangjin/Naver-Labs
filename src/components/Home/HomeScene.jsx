@@ -12,6 +12,11 @@ import HomeExperience from "./HomeExperience";
 import useTestStore from "../../store/useTestStore";
 import { createNoise3D } from "simplex-noise";
 import NaverBuilding from "../model/NaverBuilding";
+import {
+  DepthOfField,
+  EffectComposer,
+  ToneMapping,
+} from "@react-three/postprocessing";
 
 const HomeScene = () => {
   const { testData, setTestData } = useTestStore();
@@ -46,6 +51,16 @@ const HomeScene = () => {
           {/* <NaverBuilding position={[0, -50, 0]} /> */}
         </ScrollControls>
         <HomeOrthoCamera />
+
+        {/* <EffectComposer>
+          <DepthOfField
+            target={[0, 0, 50]}
+            focalLength={0.1}
+            bokehScale={14}
+            height={700}
+          />
+          <ToneMapping />
+        </EffectComposer> */}
       </Canvas>
     </>
   );

@@ -9,6 +9,7 @@ import useLoadingStateStore from "../../store/useLoadingStateStore";
 import useCurrentPage from "../../store/useCurrentPage";
 import HomePattern4PhysicsScene from "./HomePattern4PhysicsScene";
 import { useLocation } from "wouter";
+import NaverBuilding from "../model/NaverBuilding";
 
 const HomeExperience = ({ SlidePos }) => {
   const planeRef = useRef();
