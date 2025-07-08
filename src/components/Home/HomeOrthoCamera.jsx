@@ -25,26 +25,6 @@ const HomeOrthoCamera = () => {
     setCurrentUrl(tempUrl);
   }, [location]);
 
-  useEffect(() => {
-    if (currentUrl === "Naver") {
-      gsap.to(camera.position, {
-        x: 0,
-        y: -50,
-        z: 0,
-        duration: 1,
-        ease: "power2.out",
-      });
-    } else if (currentUrl === "Home") {
-      gsap.to(camera.position, {
-        x: 0,
-        y: 0,
-        z: 0,
-        duration: 1,
-        ease: "power2.out",
-      });
-    }
-  }, [currentUrl, camera]);
-
   return (
     <OrthographicCamera
       makeDefault
