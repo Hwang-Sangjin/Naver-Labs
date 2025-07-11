@@ -4,7 +4,7 @@ import { gsap } from "gsap";
 const SVGNS = "http://www.w3.org/2000/svg";
 const EASE = 0.7;
 
-const Mouse = ({ page }) => {
+const Mouse = () => {
   const svgRef = useRef([]);
   const pointer = useRef({
     x: window.innerWidth / 2,

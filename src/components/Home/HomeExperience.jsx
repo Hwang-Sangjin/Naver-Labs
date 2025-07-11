@@ -7,7 +7,6 @@ import { OrbitControls, useScroll } from "@react-three/drei";
 
 import useLoadingStateStore from "../../store/useLoadingStateStore";
 import useCurrentPage from "../../store/useCurrentPage";
-import HomePattern4PhysicsScene from "./HomePattern4PhysicsScene";
 import { useLocation } from "wouter";
 import NaverBuilding from "../model/NaverBuilding";
 
@@ -236,7 +235,6 @@ const HomeExperience = ({ SlidePos }) => {
         <planeGeometry args={[40, 30, 100, 100]} />
         <meshBasicMaterial opacity={0} transparent={true} />
       </mesh>
-      {pageState === 7 ? <HomePattern4PhysicsScene /> : null}
     </>
   );
 };
