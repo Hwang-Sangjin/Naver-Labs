@@ -29,9 +29,9 @@ const MainScene = () => {
   }[location];
 
   const transitions = useTransition(currentSceneContent, {
-    from: { opacity: 0, position: [0, 0, -5] }, // Start position behind the camera
+    from: { opacity: 0, position: [0, 0, 0] }, // Start position behind the camera
     enter: { opacity: 1, position: [0, 0, 0] }, // End position at origin
-    leave: { opacity: 0, position: [0, 0, 5] }, // Leave position in front of the camera
+    leave: { opacity: 0, position: [0, 0, 0] }, // Leave position in front of the camera
     config: { mass: 1, tension: 170, friction: 26 }, // Adjust for desired animation feel
     // Use currentSceneContent as the key for the transition
     key: currentSceneContent,
