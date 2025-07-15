@@ -8,6 +8,7 @@ import { useTransition, a } from "@react-spring/three"; // 'a' for animated comp
 import HomeOrthoCamera from "./HomeOrthoCamera";
 import HomeExperience from "./HomeExperience"; // This will be your '/Home' scene content
 import NaverBuilding from "../model/NaverBuilding";
+import Vignette from "../Vignette";
 
 // You can also create a wrapper for ScrollControls if it's common to both scenes,
 // or include it within each scene if its pages/behavior differs.
@@ -79,6 +80,7 @@ const MainScene = () => {
           </a.group>
         ))}
       </ScrollControls>
+      <Vignette />
       {/* Post-processing effects can be added here if needed */}
       {/*
       <EffectComposer>

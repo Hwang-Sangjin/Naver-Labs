@@ -17,6 +17,7 @@ import {
   EffectComposer,
   ToneMapping,
 } from "@react-three/postprocessing";
+import Vignette from "../Vignette";
 
 const HomeScene = () => {
   const { testData, setTestData } = useTestStore();
@@ -50,6 +51,7 @@ const HomeScene = () => {
           <HomeExperience SlidePos={SlidePos} />
         </ScrollControls>
         <HomeOrthoCamera />
+        <Vignette />
 
         {/* <EffectComposer>
           <DepthOfField
