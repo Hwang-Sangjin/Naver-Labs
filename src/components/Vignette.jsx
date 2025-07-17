@@ -1,7 +1,7 @@
 const Vignette = () => {
   return (
     <mesh>
-      <planeGeometry />
+      <planeGeometry args={[10, 10, 10, 10]} />
       <meshBasicMaterial />
     </mesh>
   );
