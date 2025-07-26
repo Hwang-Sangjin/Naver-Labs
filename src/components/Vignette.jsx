@@ -17,7 +17,7 @@ const Vignette = () => {
 
   return (
     <mesh>
-      <planeGeometry args={[40, 30, 5, 5]} />
+      <planeGeometry args={[40, 30, 10, 10]} />
       <shaderMaterial
         attach="material"
         //uniform={uniform}
