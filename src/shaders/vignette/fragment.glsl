@@ -1,20 +1,13 @@
-uniform vec3 uVignetteColor;
-uniform float uVignetteMultiplier;
-uniform float uVignetteOffset;
-uniform vec3 uOverlayColor;
-uniform float uOverlayAlpha;
+uniform vec3 uColor;
+uniform float uMultiplier;
+uniform float uOffset;
 
 varying vec2 vUv;
 
 void main()
 {
     float distanceToCenter = smoothstep(0.0, 1.0, length(vUv - 0.5));
+    float alpha = distanceToCenter * uMultiplier + uOffset;
 
-    float vignetteStrength = clamp(distanceToCenter * uVignetteMultiplier + uVignetteOffset, 0.0, 1.0);
-
-    vec3 color = mix(uVignetteColor, uOverlayColor, (1.0 - vignetteStrength) * uOverlayAlpha);
-
-    float alpha = vignetteStrength + uOverlayAlpha;
-
-    gl_FragColor = vec4(color, alpha);
+    gl_FragColor = vec4(vec3(1.0,0.0,1.0), alpha);
 }

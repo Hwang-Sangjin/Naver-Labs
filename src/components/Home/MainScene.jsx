@@ -80,7 +80,6 @@ const MainScene = () => {
           </a.group>
         ))}
       </ScrollControls>
-      <Vignette />
       {/* Post-processing effects can be added here if needed */}
       {/*
       <EffectComposer>

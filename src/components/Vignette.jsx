@@ -1,32 +1,31 @@
-import vignetteVertexShader from "../shaders/vignette/vertex.glsl";
-import vignetteFragmentShader from "../shaders/vignette/fragment.glsl";
-import { useMemo } from "react";
-import * as THREE from "three";
+import { useEffect, useRef } from "react";
+import useVignetteStateStore from "../store/useVignetteStateStore";
 
 const Vignette = () => {
-  const uniform = useMemo(
-    () => ({
-      uVignetteColor: { value: new THREE.Color("#4f1f96") }, // THREE.Color 사용 권장
-      uVignetteMultiplier: { value: 1.16 },
-      uVignetteOffset: { value: -1 },
-      uOverlayColor: { value: new THREE.Color("#130621") }, // THREE.Color 사용 권장
-      uOverlayAlpha: { value: 1 },
-    }),
-    []
-  );
+  const introRef = useRef(null);
+
+  const { vignetteStateStore, setVignetteStateStore } = useVignetteStateStore();
+
+  useEffect(() => {
+    const element = introRef.current;
+    if (vignetteStateStore) {
+      requestAnimationFrame(() => {
+        element.classList.add("is-visible");
+      });
+    }
+  }, [vignetteStateStore]);
 
   return (
-    <mesh>
-      <planeGeometry args={[40, 30, 10, 10]} />
-      <shaderMaterial
-        attach="material"
-        //uniform={uniform}
-        vertexShader={vignetteVertexShader}
-        fragmentShader={vignetteFragmentShader}
-        transparent={true}
-        depthTest={false}
-      />
-    </mesh>
+    <>
+      {vignetteStateStore ? (
+        <div
+          className="intro fixed flex flex-col items-center justify-center w-full h-full bg-[#88aa8f] z-50 top-0 left-0 right-0 bottom-0"
+          ref={introRef}
+        >
+          {/* ... content ... */}
+        </div>
+      ) : null}
+    </>
   );
 };
 

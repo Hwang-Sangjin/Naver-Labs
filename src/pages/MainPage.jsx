@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import MainFiberContainer from "../components/Home/MainFiberContainer";
 import Loading from "../components/Loading/Loading";
 import Mouse from "../components/Loading/Mouse";
+import Vignette from "../components/Vignette";
 
 const MainPage = () => {
   useEffect(() => {
@@ -17,6 +18,7 @@ const MainPage = () => {
       <Loading />
       <MainFiberContainer />
       <Mouse />
+      <Vignette />
     </>
   );
 };
