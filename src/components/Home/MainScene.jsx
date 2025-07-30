@@ -8,7 +8,9 @@ import { useTransition, a } from "@react-spring/three"; // 'a' for animated comp
 import HomeOrthoCamera from "./HomeOrthoCamera";
 import HomeExperience from "./HomeExperience"; // This will be your '/Home' scene content
 import NaverBuilding from "../model/NaverBuilding";
-import Vignette from "../Vignette";
+import Vignette from "../Vignette/Vignette";
+import ProjectsExperience from "../Projects/ProjectsExperience";
+import OrthoCamera from "../OrthoCamera";
 
 // You can also create a wrapper for ScrollControls if it's common to both scenes,
 // or include it within each scene if its pages/behavior differs.
@@ -26,6 +28,7 @@ const MainScene = () => {
     "/": "home", // Default to home if root
     "/Home": "home",
     "/Naver": "naver",
+    "/Projects": "projects",
     // Add more cases for other routes if needed
   }[location];
 
@@ -52,7 +55,7 @@ const MainScene = () => {
     <Canvas camera={{ position: [0, 0, 5], fov: 75 }}>
       <ambientLight intensity={0.5} />
       <pointLight position={[10, 10, 10]} />
-      <HomeOrthoCamera /> {/* Keep common camera here */}
+      <OrthoCamera /> {/* Keep common camera here */}
       {/* ScrollControls should ideally wrap the content that scrolls,
           and typically remains constant across scene transitions if its behavior is global.
           If ScrollControls itself needs to transition or reset, that's a different setup.
@@ -76,6 +79,7 @@ const MainScene = () => {
           <a.group position={style.position} opacity={style.opacity}>
             {item === "home" && <HomeExperience SlidePos={SlidePos} />}
             {item === "naver" && <NaverBuilding />}
+            {item === "projects" && <ProjectsExperience />}
             {/* Add more scene components here based on 'item' */}
           </a.group>
         ))}

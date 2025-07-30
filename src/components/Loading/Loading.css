@@ -26,3 +26,8 @@
   opacity: 0;
   transition: opacity 1s ease-out 1s;
 }
+
+.intro.is-visible-vignette {
+  opacity: 0;
+  transition: opacity 1s ease-in 1s;
+}

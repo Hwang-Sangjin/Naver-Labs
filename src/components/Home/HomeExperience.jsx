@@ -168,7 +168,7 @@ const HomeExperience = ({ SlidePos }) => {
 
     if (intersection.length > 0) {
       const point = intersection[0].point;
-      setCursorPos([point.x, point.y, point.z]);
+      setCursorPos([point.x, point.y, 0]);
     }
 
     const tempPage = Math.floor(data.offset * data.pages);
@@ -231,7 +231,7 @@ const HomeExperience = ({ SlidePos }) => {
           />
         );
       })}
-      <mesh ref={planeRef}>
+      <mesh ref={planeRef} position={[0, 0, -1]}>
         <planeGeometry args={[40, 30, 100, 100]} />
         <meshBasicMaterial opacity={0} transparent={true} />
       </mesh>
