@@ -21,9 +21,7 @@ const Vignette = () => {
         <div
           className="intro fixed flex flex-col items-center justify-center w-full h-full bg-[#88aa8f] z-50 top-0 left-0 right-0 bottom-0"
           ref={introRef}
-        >
-          {/* ... content ... */}
-        </div>
+        ></div>
       ) : null}
     </>
   );
