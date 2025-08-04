@@ -18,7 +18,7 @@ const TitleComponent = ({ isCurUrl, title }) => {
 };
 
 const MainUI = () => {
-  const pageArr = ["Home", "Naver", "Projects"];
+  const pageArr = ["Home", "Naver"];
 
   const { currentUrl } = useCurrentUrl();
 

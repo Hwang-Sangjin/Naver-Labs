@@ -9,7 +9,7 @@ import HomeOrthoCamera from "./HomeOrthoCamera";
 import HomeExperience from "./HomeExperience"; // This will be your '/Home' scene content
 import NaverBuilding from "../model/NaverBuilding";
 import Vignette from "../Vignette/Vignette";
-import ProjectsExperience from "../Projects/ProjectsExperience";
+
 import OrthoCamera from "../OrthoCamera";
 
 // You can also create a wrapper for ScrollControls if it's common to both scenes,
@@ -28,7 +28,7 @@ const MainScene = () => {
     "/": "home", // Default to home if root
     "/Home": "home",
     "/Naver": "naver",
-    "/Projects": "projects",
+
     // Add more cases for other routes if needed
   }[location];
 
@@ -79,7 +79,7 @@ const MainScene = () => {
           <a.group position={style.position} opacity={style.opacity}>
             {item === "home" && <HomeExperience SlidePos={SlidePos} />}
             {item === "naver" && <NaverBuilding />}
-            {item === "projects" && <ProjectsExperience />}
+
             {/* Add more scene components here based on 'item' */}
           </a.group>
         ))}
