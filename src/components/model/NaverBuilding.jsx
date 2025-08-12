@@ -51,7 +51,7 @@ export default function NaverBuilding(props) {
           castShadow
           receiveShadow
           geometry={nodes["1784Cafe"].geometry}
-          material={materials["1784"]}
+          material={materials["1784cafe"]}
           position={[1.851, 10.836, -3.729]}
           scale={1.035}
         />
@@ -59,7 +59,7 @@ export default function NaverBuilding(props) {
           castShadow
           receiveShadow
           geometry={nodes["1784CafeRoof"].geometry}
-          material={materials["1784"]}
+          material={materials["1784cafe"]}
           position={[1.851, 10.836, -3.729]}
           scale={1.035}
         />
@@ -71,25 +71,31 @@ export default function NaverBuilding(props) {
           position={[1.851, 10.836, -3.729]}
           scale={1.035}
         />
-        <mesh
-          castShadow
-          receiveShadow
-          geometry={nodes["1784Main"].geometry}
-          material={materials["1784"]}
-          position={[1.851, 10.836, -3.729]}
-          scale={1.035}
-        />
         <group position={[1.851, 10.836, -3.729]} scale={1.035}>
           <mesh
             castShadow
             receiveShadow
-            geometry={nodes.Cube010.geometry}
+            geometry={nodes.Cube011_1.geometry}
+            material={materials["1784"]}
+          />
+          <mesh
+            castShadow
+            receiveShadow
+            geometry={nodes.Cube011_2.geometry}
+            material={materials.Steel}
+          />
+        </group>
+        <group position={[1.851, 10.836, -3.729]} scale={1.035}>
+          <mesh
+            castShadow
+            receiveShadow
+            geometry={nodes.Cube010_1.geometry}
             material={materials.base1}
           />
           <mesh
             castShadow
             receiveShadow
-            geometry={nodes.Cube010_1.geometry}
+            geometry={nodes.Cube010_2.geometry}
             material={materials.glass}
           />
         </group>
@@ -101,20 +107,6 @@ export default function NaverBuilding(props) {
           position={[1.851, 10.836, -3.729]}
           scale={1.035}
         />
-        <group position={[1.901, 10.836, -3.729]} scale={1.035}>
-          <mesh
-            castShadow
-            receiveShadow
-            geometry={nodes.Cube020.geometry}
-            material={materials.base1}
-          />
-          <mesh
-            castShadow
-            receiveShadow
-            geometry={nodes.Cube020_1.geometry}
-            material={materials.glass}
-          />
-        </group>
         <group position={[1.851, 10.836, -3.729]} scale={1.035}>
           <mesh
             castShadow
@@ -451,6 +443,57 @@ export default function NaverBuilding(props) {
           material={materials.Steel}
           position={[7.495, 52.446, -2.589]}
           scale={0.165}
+        />
+        <mesh
+          castShadow
+          receiveShadow
+          geometry={nodes.Cube010.geometry}
+          material={materials.Steel}
+          position={[-13.541, 52.446, -11.836]}
+          scale={[0.256, 0.165, 0.165]}
+        />
+        <mesh
+          castShadow
+          receiveShadow
+          geometry={nodes.Cube011.geometry}
+          material={materials.Steel}
+          position={[-19.984, 52.446, -14.504]}
+          rotation={[0, Math.PI / 2, 0]}
+          scale={[0.077, 0.165, 0.165]}
+        />
+        <mesh
+          castShadow
+          receiveShadow
+          geometry={nodes.Cube012.geometry}
+          material={materials.Steel}
+          position={[-11.193, 52.446, -1.281]}
+          scale={[0.164, 0.165, 0.165]}
+        />
+        <mesh
+          castShadow
+          receiveShadow
+          geometry={nodes.Cube016.geometry}
+          material={materials.Steel}
+          position={[12.478, 52.169, -4.161]}
+          scale={[0.042, 0.143, 0.143]}
+        />
+        <mesh
+          castShadow
+          receiveShadow
+          geometry={nodes.Cube017.geometry}
+          material={materials.Steel}
+          position={[10.977, 52.169, -4.161]}
+          rotation={[0, Math.PI / 2, 0]}
+          scale={[0.064, 0.143, 0.143]}
+        />
+        <mesh
+          castShadow
+          receiveShadow
+          geometry={nodes.Cube018.geometry}
+          material={materials.Steel}
+          position={[14.005, 52.169, -4.161]}
+          rotation={[0, Math.PI / 2, 0]}
+          scale={[0.064, 0.143, 0.143]}
         />
       </group>
     </Center>
