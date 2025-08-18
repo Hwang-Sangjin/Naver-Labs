@@ -24,7 +24,7 @@ export default function NaverBuilding(props) {
   return (
     <Center>
       <OrbitControls />
-      <group scale={0.1} {...props} dispose={null}>
+      <group position={(0, -5, 0)} scale={0.1} {...props} dispose={null}>
         <group position={[3.299, -1.732, 12.929]} scale={[41.42, 8.284, 41.42]}>
           <mesh
             castShadow
